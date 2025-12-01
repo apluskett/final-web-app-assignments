@@ -1,11 +1,15 @@
 Rails.application.routes.draw do
-  # Portfolio and demos routes
-  root "pages#home"
-  get "demos", to: "pages#demos"
-  get "f1_predictions", to: "pages#f1_predictions"
-  post "f1_predictions/predict", to: "pages#predict_races"
+  # Serve React app for portfolio routes
+  root to: proc { [200, {'Content-Type' => 'text/html'}, [File.read(Rails.root.join('public/react.html'))]] }
+  get "demos", to: proc { [200, {'Content-Type' => 'text/html'}, [File.read(Rails.root.join('public/react.html'))]] }
+  get "f1_predictions", to: proc { [200, {'Content-Type' => 'text/html'}, [File.read(Rails.root.join('public/react.html'))]] }
   
-  # Assignment 5 routes
+  # API endpoints for React app
+  namespace :api do
+    post "f1_predictions/predict", to: "pages#predict_races"
+  end
+  
+  # Assignment 5 routes (traditional Rails views)
   resources :projects
   resources :office_managers
   resources :offices

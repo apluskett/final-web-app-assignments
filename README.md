@@ -18,9 +18,22 @@ A full-stack web application showcasing machine learning predictions for Formula
 ## 🚀 How to Run
 
 ### Prerequisites
-- ML API container must be running on port 8000 (see F1 API setup)
-- Ruby 3.x and Rails 8.0
-- Podman or Docker
+- **Node.js 20+** and **npm** (for building React frontend)
+- **Ruby 3.x** and **Rails 8.0**
+- **ML API container** running on port 8000
+- **Podman or Docker**
+
+### Build React Frontend
+
+```bash
+# Install dependencies
+npm install
+
+# Build the React app with esbuild
+npm run build
+```
+
+This compiles the React application into `app/assets/builds/application.js`
 
 ### Using Docker
 
@@ -39,12 +52,23 @@ podman run -d -p 3000:3000 --name final-web-app
 ### Local Development
 
 ```bash
+# Install Ruby dependencies
 bundle install
+
+# Build React frontend
+npm install
+npm run build
+
+# Setup database
 rails db:migrate
+
+# Start Rails server
 rails server -b 0.0.0.0 -p 3000
 ```
 
 Then access the portfolio at http://localhost:3000
+
+**Note**: After making changes to React components in `app/javascript/components/`, run `npm run build` to rebuild the frontend.
 
 ## 📊 Machine Learning Models
 
@@ -215,11 +239,12 @@ Browser (Port 3000) ←→ Rails App (Container) ←→ FastAPI ML API (Port 800
 
 ## 📝 Technologies Used
 
-- **Frontend**: Rails 8.0, Turbo, Stimulus, CSS Variables
-- **Backend**: Ruby on Rails (MVC)
+- **Frontend**: React 18 (with React Router for SPA navigation)
+- **Backend**: Ruby on Rails 8.0 (API mode for ML predictions)
 - **ML Stack**: Python, FastAPI, Scikit-learn, XGBoost, Pandas
 - **Containers**: Podman/Docker
 - **Data**: Historical F1 race data (2018-2024)
+- **Styling**: CSS Variables for theming, responsive design
 
 ## 🙏 Citations
 

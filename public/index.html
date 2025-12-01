@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alex Pluskett - Portfolio</title>
+    <link rel="icon" href="/icon.svg?v=2" type="image/svg+xml">
+    <link rel="icon" href="/icon.png?v=2" type="image/png">
+    <style>
+      :root {
+        --bg-primary: #ffffff;
+        --bg-secondary: #f8f9fa;
+        --text-primary: #333;
+        --text-secondary: #666;
+        --border-color: #ddd;
+        --link-color: #007bff;
+      }
+      
+      [data-theme="dark"] {
+        --bg-primary: #1a1a1a;
+        --bg-secondary: #2d2d2d;
+        --text-primary: #ffffff;
+        --text-secondary: #cccccc;
+        --border-color: #444;
+        --link-color: #4da3ff;
+      }
+      
+      [data-theme="f1"] {
+        --bg-primary: #15151E;
+        --bg-secondary: #1E1E28;
+        --text-primary: #ffffff;
+        --text-secondary: #E8E8E8;
+        --border-color: #E10600;
+        --link-color: #E10600;
+      }
+      
+      body {
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        transition: background-color 0.3s, color 0.3s;
+      }
+      
+      a {
+        color: var(--link-color);
+      }
+      
+      .theme-switcher {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+      }
+      
+      .theme-btn {
+        padding: 0.5rem 1rem;
+        border: 2px solid var(--border-color);
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: all 0.3s;
+      }
+      
+      .theme-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      }
+      
+      .theme-btn.active {
+        background: var(--link-color);
+        color: white;
+        border-color: var(--link-color);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="importmap">
+      {
+        "imports": {
+          "react": "https://esm.sh/react@18.2.0",
+          "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+          "react-router-dom": "https://esm.sh/react-router-dom@6.20.0"
+        }
+      }
+    </script>
+    <script type="module">
+      import React from 'react';
+      import { createRoot } from 'react-dom/client';
+      import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+
+      // Theme Context
+      const ThemeContext = React.createContext();
+
+      function useTheme() {
+        const context = React.useContext(ThemeContext);
+        if (!context) {
+          throw new Error('useTheme must be used within a ThemeProvider');
+        }
+        return context;
+      }
+
+      function ThemeProvider({ children }) {
+        const [theme, setThemeState] = React.useState(() => {
+          return localStorage.getItem('theme') || 'light';
+        });
+
+        React.useEffect(() => {
+          document.documentElement.setAttribute('data-theme', theme);
+          localStorage.setItem('theme', theme);
+        }, [theme]);
+
+        const setTheme = (newTheme) => {
+          setThemeState(newTheme);
+        };
+
+        return React.createElement(ThemeContext.Provider, { value: { theme, setTheme } }, children);
+      }
+
+      // App Component - will be loaded from external file
+      const rootElement = document.getElementById('root');
+      if (rootElement) {
+        const root = createRoot(rootElement);
+        root.render(
+          React.createElement(ThemeProvider, null,
+            React.createElement('div', { style: { padding: '2rem', textAlign: 'center' } },
+              React.createElement('h1', null, 'React App Loading...'),
+              React.createElement('p', null, 'Setting up React components...')
+            )
+          )
+        );
+      }
+    </script>
+  </body>
+</html>
