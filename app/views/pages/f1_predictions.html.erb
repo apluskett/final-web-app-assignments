@@ -1,7 +1,7 @@
 <div style="max-width: 1200px; margin: 2rem auto; padding: 0 2rem;">
   <div style="text-align: center; margin-bottom: 3rem;">
-    <h1 style="font-size: 3rem; margin-bottom: 0.5rem;">🏎️ F1 Race Predictions</h1>
-    <p style="font-size: 1.2rem; color: #666;">
+    <h1 style="font-size: 3rem; margin-bottom: 0.5rem; color: var(--text-primary);">🏎️ F1 Race Predictions</h1>
+    <p style="font-size: 1.2rem; color: var(--text-secondary);">
       Machine Learning predictions for the last 6 races of the 2025 Formula 1 Season
     </p>
   </div>
@@ -15,22 +15,22 @@
       </p>
       <%= button_to "Let's Predict the Last 6 Races", { action: 'predict_races' }, 
           method: :post,
-          style: "padding: 1.5rem 3rem; font-size: 1.2rem; background: white; color: #E10600; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s;" %>
+          style: "padding: 1.5rem 3rem; font-size: 1.2rem; background: var(--bg-primary); color: #E10600; border: 2px solid #E10600; border-radius: 8px; font-weight: bold; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s;" %>
     </div>
     
-    <div style="margin-top: 3rem; padding: 2rem; background: #f8f9fa; border-radius: 8px;">
-      <h3>About the Models</h3>
+    <div style="margin-top: 3rem; padding: 2rem; background: var(--bg-secondary); border-radius: 8px; border: 1px solid var(--border-color);">
+      <h3 style="color: var(--text-primary);">About the Models</h3>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1rem;">
         <div>
           <h4 style="color: #E10600;">📊 Weighted Linear Regression</h4>
-          <p style="color: #666;">
+          <p style="color: var(--text-secondary);">
             A statistical model that learns from historical race data to predict finishing positions based on 
             starting grid position, driver performance, and track characteristics.
           </p>
         </div>
         <div>
           <h4 style="color: #E10600;">🤖 XGBoost</h4>
-          <p style="color: #666;">
+          <p style="color: var(--text-secondary);">
             An advanced gradient boosting algorithm that captures complex patterns in racing data, 
             considering multiple factors and non-linear relationships.
           </p>
@@ -63,7 +63,7 @@
                  style="color: #E10600; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 0.5rem;">
                 View on YouTube →
               </a>
-              <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: #666;">
+              <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: var(--text-secondary);">
                 (F1 race highlights cannot be embedded but can be watched directly on YouTube)
               </p>
             </div>
