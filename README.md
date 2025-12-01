@@ -1,5 +1,3 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/kzbE3_Aq)
-
 # F1 Race Predictions Portfolio
 
 **Your name**: Alexander Pluskett
@@ -12,36 +10,37 @@ A full-stack web application showcasing machine learning predictions for Formula
 ### Features
 - **Interactive ML Predictions**: Predicts podium finishes for the final 6 races of the 2025 F1 season
 - **Dual Model Comparison**: Weighted Linear Regression vs. XGBoost
-- **Embedded Race Highlights**: YouTube videos integrated for each race
+- **Race Highlights**: Direct links to official F1 YouTube race highlights
 - **Theme Modes**: Light, Dark, and F1 Official color schemes
 - **Full Transparency**: Complete prediction data (CSV format) for all 20 drivers
 - **Responsive Design**: Works on desktop, tablet, and mobile
 
 ## 🚀 How to Run
 
-<h2>Using Docker</h2>
+### Prerequisites
+- ML API container must be running on port 8000 (see F1 API setup)
+- Ruby 3.x and Rails 8.0
+- Podman or Docker
+
+### Using Docker
 
 ```bash
-docker build -t assignment_05 -f Dockerfile .
-docker run -p 3000:80 assignment_05
+docker build -t final-web-app -f Dockerfile .
+docker run -d -p 3000:3000 --name final-web-app
 ```
 
-Then access the React app at http://localhost:3000 or the Rails app at http://localhost:3000/employees
-
-<h2>Using Podman</h2>
+### Using Podman
 
 ```bash
-podman build -t assignment_05 -f Dockerfile .
-podman run -p 3000:80 assignment_05
+podman build -t final-web-app -f Dockerfile .
+podman run -d -p 3000:3000 --name final-web-app
 ```
 
-Then access the React app at http://localhost:3000 or the Rails app at http://localhost:3000/employees
-
-<h2>Without Docker/Podman (manual setup)</h2>
+### Local Development
 
 ```bash
+bundle install
 rails db:migrate
-rails db:seed
 rails server -b 0.0.0.0 -p 3000
 ```
 
@@ -97,7 +96,7 @@ Both models chosen to demonstrate:
 - **Prediction Button**: "Let's Predict the Last 6 Races" triggers ML API
 - **Theme Switcher**: ☀️ Light, 🌙 Dark, 🏎️ F1 modes (persists via localStorage)
 - **Expandable Tables**: Click to view complete prediction data
-- **Embedded Videos**: YouTube race highlights with timestamps
+- **Race Highlights**: YouTube links to official F1 race highlights (embedding blocked by F1 Management)
 
 ### Visual Feedback
 - **Color-Coded Podiums**: Top 3 predictions highlighted
