@@ -54,15 +54,18 @@
           <strong>Race Highlights:</strong> <%= result[:race][:highlights] %>
           
           <% if result[:race][:youtube_id].present? %>
-            <div style="margin-top: 1rem; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 8px;">
-              <iframe 
-                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
-                src="https://www.youtube.com/embed/<%= result[:race][:youtube_id] %>" 
-                title="<%= result[:race][:name] %> Highlights"
-                frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                allowfullscreen>
-              </iframe>
+            <div style="margin-top: 1rem; padding: 1rem; background: rgba(225, 6, 0, 0.1); border-left: 4px solid #E10600; border-radius: 4px;">
+              <p style="margin: 0 0 0.5rem 0; font-weight: bold; color: var(--text-primary);">
+                📺 Watch Race Highlights
+              </p>
+              <a href="https://www.youtube.com/watch?v=<%= result[:race][:youtube_id] %>" 
+                 target="_blank"
+                 style="color: #E10600; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 0.5rem;">
+                View on YouTube →
+              </a>
+              <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: #666;">
+                (F1 race highlights cannot be embedded but can be watched directly on YouTube)
+              </p>
             </div>
           <% end %>
         </div>
