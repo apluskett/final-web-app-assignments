@@ -1,0 +1,27 @@
+<%= form_with(model: office) do |form| %>
+  <% if office.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(office.errors.count, "error") %> prohibited this office from being saved:</h2>
+
+      <ul>
+        <% office.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :number, style: "display: block" %>
+    <%= form.number_field :number %>
+  </div>
+
+  <div>
+    <%= form.label :employee_id, style: "display: block" %>
+  <%= form.collection_select :employee_id, Employee.order(:name), :id, :name %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

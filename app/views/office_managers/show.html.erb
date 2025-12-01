@@ -1,0 +1,23 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @office_manager %>
+
+<div>
+  <%= link_to "Edit this office manager", edit_office_manager_path(@office_manager) %> |
+  <%= link_to "Back to office managers", office_managers_path %>
+
+  <%= button_to "Destroy this office manager", @office_manager, method: :delete %>
+</div>
+
+<h2>Employees managed by <%= @office_manager.name %></h2>
+<div id="office-manager-employees">
+  <% if @office_manager.employees.any? %>
+    <ul>
+      <% @office_manager.employees.order(:name).each do |employee| %>
+        <li><%= link_to employee.name, employee_path(employee) %></li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>No employees assigned.</p>
+  <% end %>
+</div>

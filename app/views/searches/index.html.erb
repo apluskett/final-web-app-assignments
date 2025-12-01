@@ -1,0 +1,39 @@
+<% content_for :title, "Search" %>
+
+<h1>Search</h1>
+
+<%= form_with url: search_path, method: :get, local: true do |f| %>
+  <div>
+    <%= f.label :q, "Search" %>
+    <%= f.text_field :q, value: params[:q], placeholder: "employees, projects, offices, managers..." %>
+    <%= f.submit "Search" %>
+  </div>
+<% end %>
+
+<h2>Employees</h2>
+<ul>
+  <% @employees.each do |e| %>
+    <li><%= link_to e.name, employee_path(e) %> (id: <%= e.id %>)</li>
+  <% end %>
+</ul>
+
+<h2>Projects</h2>
+<ul>
+  <% @projects.each do |p| %>
+    <li><%= link_to p.project_name, project_path(p) %> — <%= truncate(p.description, length: 100) %></li>
+  <% end %>
+</ul>
+
+<h2>Offices</h2>
+<ul>
+  <% @offices.each do |o| %>
+    <li>Office <%= link_to o.number, office_path(o) %> — Employee: <%= link_to o.employee.name, employee_path(o.employee) if o.employee %></li>
+  <% end %>
+</ul>
+
+<h2>Office managers</h2>
+<ul>
+  <% @office_managers.each do |om| %>
+    <li><%= link_to om.name, office_manager_path(om) %></li>
+  <% end %>
+</ul>

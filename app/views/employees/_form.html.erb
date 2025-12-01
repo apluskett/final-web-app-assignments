@@ -1,0 +1,50 @@
+<%= form_with(model: employee) do |form| %>
+  <% if employee.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(employee.errors.count, "error") %> prohibited this employee from being saved:</h2>
+
+      <ul>
+        <% employee.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <strong>Office:</strong>
+    <% if employee.office %>
+      <%= link_to "Office ##{employee.office.number}", office_path(employee.office) %>
+    <% else %>
+      <em>None</em>
+    <% end %>
+  </div>
+
+  <div>
+    <strong>Manager:</strong>
+    <% if employee.office_manager %>
+      <%= link_to employee.office_manager.name, office_manager_path(employee.office_manager) %>
+    <% else %>
+      <em>Unassigned</em>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :projects, "Projects" %>
+    <%= form.collection_check_boxes :project_ids, Project.order(:project_name), :id, :project_name do |b| %>
+      <div>
+        <%= b.check_box %>
+        <%= b.label %>
+      </div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

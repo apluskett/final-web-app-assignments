@@ -1,0 +1,26 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Office managers" %>
+
+<h1>Office managers</h1>
+
+<div id="office_managers">
+  <% @office_managers.each do |office_manager| %>
+    <%= render office_manager %>
+    <% if office_manager.employees.any? %>
+      <p><strong>Employees:</strong></p>
+      <ul>
+        <% office_manager.employees.order(:name).each do |e| %>
+          <li><%= link_to e.name, employee_path(e) %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p><em>No employees assigned</em></p>
+    <% end %>
+    <p>
+      <%= link_to "Show this office manager", office_manager %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New office manager", new_office_manager_path %>

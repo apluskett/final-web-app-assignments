@@ -1,0 +1,20 @@
+<div id="<%= dom_id project %>">
+  <p>
+    <strong>Project name:</strong>
+    <%= link_to project.project_name, project %>
+  </p>
+
+  <p>
+    <strong>Assigned employees:</strong>
+    <% if project.employees.any? %>
+      <ul>
+        <% project.employees.order(:name).each do |employee| %>
+          <li><%= link_to employee.name, employee_path(employee) %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <em>None</em>
+    <% end %>
+  </p>
+
+</div>

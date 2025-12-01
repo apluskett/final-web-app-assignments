@@ -1,0 +1,67 @@
+<div style="max-width: 1000px; margin: 2rem auto; padding: 0 2rem;">
+  <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Project Demos</h1>
+  <p style="font-size: 1.1rem; color: #666; margin-bottom: 3rem;">
+    Explore interactive demonstrations of my projects. Each demo showcases different technologies and problem-solving approaches.
+  </p>
+  
+  <div style="display: grid; gap: 2rem;">
+    <!-- F1 Predictions Demo -->
+    <div style="border: 2px solid #E10600; border-radius: 12px; padding: 2rem; background: var(--bg-secondary); transition: transform 0.3s, box-shadow 0.3s;">
+      <div style="display: flex; align-items: start; gap: 1.5rem;">
+        <div style="font-size: 3rem;">🏎️</div>
+        <div style="flex: 1;">
+          <h2 style="margin: 0 0 0.5rem 0; color: #E10600;">F1 Race Predictions</h2>
+          <p style="color: #666; line-height: 1.6; margin-bottom: 1rem;">
+            Machine learning models that predict Formula 1 race outcomes for the last 6 races of the 2025 season.
+            Uses two different ML approaches: Weighted Linear Regression and XGBoost to analyze driver performance,
+            grid positions, and track characteristics.
+          </p>
+          <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+            <strong>Technologies:</strong> FastAPI, Python, Scikit-learn, XGBoost, Pandas, Rails API Integration
+          </div>
+          <%= link_to f1_predictions_path, style: "display: inline-block; padding: 0.75rem 2rem; background: #E10600; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; transition: background 0.3s;" do %>
+            Launch F1 Demo →
+          <% end %>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Employee Management Demo -->
+    <div style="border: 2px solid #007bff; border-radius: 12px; padding: 2rem; background: var(--bg-secondary);">
+      <div style="display: flex; align-items: start; gap: 1.5rem;">
+        <div style="font-size: 3rem;">👥</div>
+        <div style="flex: 1;">
+          <h2 style="margin: 0 0 0.5rem 0; color: #007bff;">Employee Management System</h2>
+          <p style="color: #666; line-height: 1.6; margin-bottom: 1rem;">
+            Full-featured CRUD application for managing employees, projects, offices, and office managers.
+            Includes advanced search functionality, relationship management, and data validation.
+          </p>
+          <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+            <strong>Technologies:</strong> Ruby on Rails 8, SQLite, Turbo, Stimulus, RESTful API
+          </div>
+          <%= link_to employees_path, style: "display: inline-block; padding: 0.75rem 2rem; background: #007bff; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; transition: background 0.3s;" do %>
+            Launch Employee Demo →
+          <% end %>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Coming Soon -->
+    <div style="border: 2px solid #ddd; border-radius: 12px; padding: 2rem; background: #f8f9fa;">
+      <div style="display: flex; align-items: start; gap: 1.5rem;">
+        <div style="font-size: 3rem;">🚀</div>
+        <div style="flex: 1;">
+          <h2 style="margin: 0 0 0.5rem 0; color: #666;">More Demos Coming Soon</h2>
+          <p style="color: #666; line-height: 1.6; margin-bottom: 1rem;">
+            Working on additional demos including containerized microservices, real-time data visualization,
+            and cloud-deployed applications. Check back soon!
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div style="margin-top: 3rem; padding: 2rem; background: #f8f9fa; border-radius: 8px; text-align: center;">
+    <%= link_to "← Back to Home", root_path, style: "color: #007bff; text-decoration: none; font-weight: bold;" %>
+  </div>
+</div>

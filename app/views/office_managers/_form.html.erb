@@ -1,0 +1,27 @@
+<%= form_with(model: office_manager) do |form| %>
+  <% if office_manager.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(office_manager.errors.count, "error") %> prohibited this office_manager from being saved:</h2>
+
+      <ul>
+        <% office_manager.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :employee_ids, "Employees", style: "display: block" %>
+    <%= form.collection_select :employee_ids, Employee.order(:name), :id, :name, { include_hidden: false }, { multiple: true, size: 8 } %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

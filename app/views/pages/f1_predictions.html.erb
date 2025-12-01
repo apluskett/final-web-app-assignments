@@ -1,0 +1,177 @@
+<div style="max-width: 1200px; margin: 2rem auto; padding: 0 2rem;">
+  <div style="text-align: center; margin-bottom: 3rem;">
+    <h1 style="font-size: 3rem; margin-bottom: 0.5rem;">🏎️ F1 Race Predictions</h1>
+    <p style="font-size: 1.2rem; color: #666;">
+      Machine Learning predictions for the last 6 races of the 2025 Formula 1 Season
+    </p>
+  </div>
+  
+  <% if @predictions.nil? %>
+    <!-- Initial state - show the button -->
+    <div style="text-align: center; padding: 4rem 2rem; background: linear-gradient(135deg, #E10600 0%, #15151E 100%); border-radius: 12px; color: white;">
+      <h2 style="font-size: 2rem; margin-bottom: 1rem;">Ready to See the Predictions?</h2>
+      <p style="font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.9;">
+        Our ML models will predict the podium finishers for Abu Dhabi, Qatar, Las Vegas, São Paulo, Mexico City, and Austin.
+      </p>
+      <%= button_to "Let's Predict the Last 6 Races", { action: 'predict_races' }, 
+          method: :post,
+          style: "padding: 1.5rem 3rem; font-size: 1.2rem; background: white; color: #E10600; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s;" %>
+    </div>
+    
+    <div style="margin-top: 3rem; padding: 2rem; background: #f8f9fa; border-radius: 8px;">
+      <h3>About the Models</h3>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1rem;">
+        <div>
+          <h4 style="color: #E10600;">📊 Weighted Linear Regression</h4>
+          <p style="color: #666;">
+            A statistical model that learns from historical race data to predict finishing positions based on 
+            starting grid position, driver performance, and track characteristics.
+          </p>
+        </div>
+        <div>
+          <h4 style="color: #E10600;">🤖 XGBoost</h4>
+          <p style="color: #666;">
+            An advanced gradient boosting algorithm that captures complex patterns in racing data, 
+            considering multiple factors and non-linear relationships.
+          </p>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <!-- Results state - show predictions -->
+    <% @predictions.each do |result| %>
+      <div style="margin-bottom: 4rem; border: 2px solid #E10600; border-radius: 12px; overflow: hidden;">
+        <!-- Race Header -->
+        <div style="background: linear-gradient(135deg, #E10600 0%, #15151E 100%); color: white; padding: 2rem;">
+          <h1 style="margin: 0 0 0.5rem 0; font-size: 2.5rem;"><%= result[:race][:name] %></h1>
+          <p style="margin: 0; font-size: 1.1rem; opacity: 0.9;">
+            <%= result[:race][:track] %> • <%= result[:race][:date] %> • Round <%= result[:race][:round] %>
+          </p>
+        </div>
+        
+        <!-- Race Highlights -->
+        <div style="padding: 1.5rem 2rem; background: var(--bg-secondary); color: var(--text-primary);">
+          <strong>Race Highlights:</strong> <%= result[:race][:highlights] %>
+          
+          <% if result[:race][:youtube_id].present? %>
+            <div style="margin-top: 1rem; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 8px;">
+              <iframe 
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+                src="https://www.youtube.com/embed/<%= result[:race][:youtube_id] %>" 
+                title="<%= result[:race][:name] %> Highlights"
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowfullscreen>
+              </iframe>
+            </div>
+          <% end %>
+        </div>
+        
+        <!-- Podium Predictions -->
+        <div style="padding: 2rem;">
+          <h2 style="margin-top: 0; color: #E10600;">🏆 Predicted Podium</h2>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+            <!-- Linear Model Predictions -->
+            <div style="border: 1px solid var(--border-color); border-radius: 8px; padding: 1.5rem; background: var(--bg-secondary);">
+              <h3 style="margin-top: 0; color: #007bff;">📊 Linear Regression Model</h3>
+              <% if result[:predictions][:linear]['error'] %>
+                <p style="color: #dc3545;"><%= result[:predictions][:linear]['error'] %></p>
+              <% elsif result[:predictions][:linear]['predictions'].present? %>
+                <% podium = result[:predictions][:linear]['predictions'].sort_by { |p| p['predicted_position'] }.first(3) %>
+                <ol style="font-size: 1.1rem; line-height: 2;">
+                  <% podium.each do |driver| %>
+                    <li><strong><%= driver['driver'] %></strong> (Grid: <%= driver['grid'].to_i %>)</li>
+                  <% end %>
+                </ol>
+              <% else %>
+                <p style="color: #dc3545;">No predictions available</p>
+              <% end %>
+            </div>
+            
+            <!-- XGBoost Model Predictions -->
+            <div style="border: 1px solid var(--border-color); border-radius: 8px; padding: 1.5rem; background: var(--bg-secondary);">
+              <h3 style="margin-top: 0; color: #28a745;">🤖 XGBoost Model</h3>
+              <% if result[:predictions][:xgboost]['error'] %>
+                <p style="color: #dc3545;"><%= result[:predictions][:xgboost]['error'] %></p>
+              <% elsif result[:predictions][:xgboost]['predictions'].present? %>
+                <% podium = result[:predictions][:xgboost]['predictions'].sort_by { |p| p['predicted_position'] }.first(3) %>
+                <ol style="font-size: 1.1rem; line-height: 2;">
+                  <% podium.each do |driver| %>
+                    <li><strong><%= driver['driver'] %></strong> (Grid: <%= driver['grid'].to_i %>)</li>
+                  <% end %>
+                </ol>
+              <% else %>
+                <p style="color: #dc3545;">No predictions available</p>
+              <% end %>
+            </div>
+          </div>
+          
+          <!-- Full Predictions Table -->
+          <details style="margin-top: 2rem;">
+            <summary style="cursor: pointer; font-size: 1.1rem; font-weight: bold; color: #E10600; padding: 1rem; background: var(--bg-secondary); border-radius: 6px;">
+              📋 View Complete Prediction Data (All Positions)
+            </summary>
+            
+            <div style="margin-top: 1rem; overflow-x: auto;">
+              <h4 style="color: var(--text-primary);">Linear Regression - All Predictions</h4>
+              <% if result[:predictions][:linear]['predictions'] %>
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 2rem;">
+                  <thead>
+                    <tr style="background: var(--bg-secondary);">
+                      <th style="padding: 0.75rem; text-align: left; border: 1px solid var(--border-color); color: var(--text-primary);">Predicted Pos</th>
+                      <th style="padding: 0.75rem; text-align: left; border: 1px solid var(--border-color); color: var(--text-primary);">Driver</th>
+                      <th style="padding: 0.75rem; text-align: left; border: 1px solid var(--border-color); color: var(--text-primary);">Grid Position</th>
+                      <th style="padding: 0.75rem; text-align: left; border: 1px solid var(--border-color); color: var(--text-primary);">Predicted Score</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% result[:predictions][:linear]['predictions'].sort_by { |p| p['predicted_position'] }.each_with_index do |driver, idx| %>
+                      <tr style="<%= idx < 3 ? 'background: rgba(255, 243, 205, 0.3);' : '' %> color: var(--text-primary);">
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color); color: var(--text-primary);"><%= idx + 1 %></td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color); color: var(--text-primary);"><strong><%= driver['driver'] %></strong></td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color); color: var(--text-primary);"><%= driver['grid'].to_i %></td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color); color: var(--text-primary);"><%= sprintf('%.2f', driver['predicted_position']) %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              <% end %>
+              
+              <h4 style="color: var(--text-primary);">XGBoost - All Predictions</h4>
+              <% if result[:predictions][:xgboost]['predictions'] %>
+                <table style="width: 100%; border-collapse: collapse;">
+                  <thead>
+                    <tr style="background: var(--bg-secondary);">
+                      <th style="padding: 0.75rem; text-align: left; border: 1px solid var(--border-color); color: var(--text-primary);">Predicted Pos</th>
+                      <th style="padding: 0.75rem; text-align: left; border: 1px solid var(--border-color); color: var(--text-primary);">Driver</th>
+                      <th style="padding: 0.75rem; text-align: left; border: 1px solid var(--border-color); color: var(--text-primary);">Grid Position</th>
+                      <th style="padding: 0.75rem; text-align: left; border: 1px solid var(--border-color); color: var(--text-primary);">Predicted Score</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% result[:predictions][:xgboost]['predictions'].sort_by { |p| p['predicted_position'] }.each_with_index do |driver, idx| %>
+                      <tr style="<%= idx < 3 ? 'background: rgba(212, 237, 218, 0.3);' : '' %> color: var(--text-primary);">
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color); color: var(--text-primary);"><%= idx + 1 %></td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color); color: var(--text-primary);"><strong><%= driver['driver'] %></strong></td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color); color: var(--text-primary);"><%= driver['grid'].to_i %></td>
+                        <td style="padding: 0.75rem; border: 1px solid var(--border-color); color: var(--text-primary);"><%= sprintf('%.2f', driver['predicted_position']) %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              <% end %>
+            </div>
+          </details>
+        </div>
+      </div>
+    <% end %>
+    
+    <div style="text-align: center; margin-top: 3rem;">
+      <%= button_to "Run Predictions Again", { action: 'predict_races' }, 
+          method: :post,
+          style: "padding: 1rem 2rem; background: #E10600; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-right: 1rem;" %>
+      <%= link_to "← Back to Demos", demos_path, style: "padding: 1rem 2rem; border: 2px solid #E10600; color: #E10600; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;" %>
+    </div>
+  <% end %>
+</div>

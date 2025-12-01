@@ -1,0 +1,11 @@
+<% content_for :title, "New office manager" %>
+
+<h1>New office manager</h1>
+
+<%= render "form", office_manager: @office_manager %>
+
+<br>
+
+<div>
+  <%= link_to "Back to office managers", office_managers_path %>
+</div>

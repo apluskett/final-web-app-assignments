@@ -1,0 +1,16 @@
+<div id="<%= dom_id office %>">
+  <p>
+    <strong>Number:</strong>
+    <%= office.number %>
+  </p>
+
+  <p>
+    <strong>Employee:</strong>
+    <% if office.employee %>
+      <%= link_to office.employee.name, employee_path(office.employee) %>
+    <% else %>
+      <em>Unassigned</em>
+    <% end %>
+  </p>
+
+</div>

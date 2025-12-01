@@ -1,0 +1,63 @@
+<div class="hero-section" style="text-align: center; padding: 4rem 2rem; max-width: 900px; margin: 0 auto;">
+  <h1 style="font-size: 3rem; margin-bottom: 1rem;">Welcome to My Portfolio</h1>
+  <p style="font-size: 1.3rem; color: #666; margin-bottom: 2rem; line-height: 1.6;">
+    Hi! I'm a developer passionate about building innovative web applications and machine learning solutions.
+    This site showcases my projects, demos, and technical work.
+  </p>
+  
+  <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 3rem 0;">
+    <%= link_to demos_path, style: "padding: 1rem 2rem; background: #007bff; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; transition: background 0.3s;" do %>
+      View Demos
+    <% end %>
+    
+    <a href="https://github.com" target="_blank" style="padding: 1rem 2rem; background: #333; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; transition: background 0.3s;">
+      GitHub
+    </a>
+    
+    <a href="#projects" style="padding: 1rem 2rem; border: 2px solid #007bff; color: #007bff; text-decoration: none; border-radius: 8px; font-weight: bold; transition: all 0.3s;">
+      Projects
+    </a>
+  </div>
+</div>
+
+<div id="projects" style="max-width: 1000px; margin: 4rem auto; padding: 0 2rem;">
+  <h2 style="font-size: 2rem; margin-bottom: 2rem; text-align: center;">Featured Projects</h2>
+  
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+    <div style="border: 1px solid #ddd; border-radius: 8px; padding: 1.5rem; background: var(--bg-secondary);">
+      <h3 style="margin-top: 0; color: #E10600;">F1 Race Predictions</h3>
+      <p style="color: var(--text-secondary); line-height: 1.6;">
+        Machine learning models predicting Formula 1 race outcomes using XGBoost and Linear Regression.
+        Analyzes driver performance, grid positions, and track characteristics.
+      </p>
+      <%= link_to "View Demo →", demos_path, style: "color: var(--link-color); text-decoration: none; font-weight: bold;" %>
+    </div>
+    
+    <div style="border: 1px solid #ddd; border-radius: 8px; padding: 1.5rem; background: var(--bg-secondary);">
+      <h3 style="margin-top: 0;">Employee Management System</h3>
+      <p style="color: var(--text-secondary); line-height: 1.6;">
+        Full-stack Rails application with CRUD operations, search functionality, and relationship management 
+        for employees, projects, offices, and managers.
+      </p>
+      <%= link_to "View System →", employees_path, style: "color: var(--link-color); text-decoration: none; font-weight: bold;" %>
+    </div>
+    
+    <div style="border: 1px solid #ddd; border-radius: 8px; padding: 1.5rem; background: var(--bg-secondary);">
+      <h3 style="margin-top: 0;">More Coming Soon</h3>
+      <p style="color: var(--text-secondary); line-height: 1.6;">
+        Currently working on additional projects involving cloud deployment, containerization, 
+        and advanced machine learning applications.
+      </p>
+      <a href="https://github.com" style="color: var(--link-color); text-decoration: none; font-weight: bold;">Follow on GitHub →</a>
+    </div>
+  </div>
+</div>
+
+<div style="text-align: center; padding: 3rem 2rem; margin: 4rem auto; max-width: 800px; background: #f8f9fa; border-radius: 8px;">
+  <h2 style="margin-top: 0;">About This Portfolio</h2>
+  <p style="color: #666; line-height: 1.6;">
+    This site is built with Ruby on Rails and showcases various projects, demos, and technical documentation.
+    All source code and project details are available on my GitHub profile. Feel free to explore the demos
+    and reach out if you'd like to collaborate!
+  </p>
+</div>

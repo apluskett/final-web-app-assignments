@@ -1,0 +1,36 @@
+<div id="<%= dom_id employee %>">
+  <p>
+    <strong>Name:</strong>
+    <%= link_to employee.name, employee %>
+  </p>
+  <p>
+    <strong>Office:</strong>
+    <% if employee.office %>
+      <%= link_to "Office ##{employee.office.number}", office_path(employee.office) %>
+    <% else %>
+      <em>None</em>
+    <% end %>
+  </p>
+
+  <p>
+    <strong>Manager:</strong>
+    <% if employee.office_manager %>
+      <%= link_to employee.office_manager.name, office_manager_path(employee.office_manager) %>
+    <% else %>
+      <em>Unassigned</em>
+    <% end %>
+  </p>
+
+  <p>
+    <strong>Projects:</strong>
+    <% if employee.projects.any? %>
+      <ul>
+        <% employee.projects.order(:project_name).each do |project| %>
+          <li><%= link_to project.project_name, project_path(project) %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <em>None</em>
+    <% end %>
+  </p>
+</div>

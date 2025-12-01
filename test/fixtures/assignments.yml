@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+alice_website:
+  employee: alice
+  project: website_redesign
+
+bob_internal:
+  employee: bob
+  project: internal_tool
