@@ -20,8 +20,21 @@ A full-stack web application showcasing machine learning predictions for Formula
 ### Prerequisites
 - **Node.js 20+** and **npm** (for building React frontend)
 - **Ruby 3.x** and **Rails 8.0**
-- **ML API container** running on port 8000
+- **ML API container** running on port 8000 (see [Machine Learning API Project](https://github.com/apluskett/Machine-Learning-API-project))
 - **Podman or Docker**
+
+### Required: ML API Setup
+
+This web app requires the F1 ML API to be running. Clone and start the API first:
+
+```bash
+# Clone the ML API repository
+git clone https://github.com/apluskett/Machine-Learning-API-project.git
+cd Machine-Learning-API-project
+
+# Follow the setup instructions in that repository's README
+# The API must be running on port 8000
+```
 
 ### Build React Frontend
 
@@ -233,9 +246,16 @@ app/
 
 ```
 Browser (Port 3000) ←→ Rails App (Container) ←→ FastAPI ML API (Port 8000)
-                                                  ├── Linear Regression Model
-                                                  └── XGBoost Model
+                       [React Frontend]            [Python ML Service]
+                       [Rails API Backend]         ├── Linear Regression Model
+                                                   └── XGBoost Model
 ```
+
+**Two-Part System:**
+1. **This Repository**: React frontend + Rails API backend
+2. **[ML API Repository](https://github.com/apluskett/Machine-Learning-API-project)**: FastAPI service with trained ML models
+
+Both must be running for full functionality.
 
 ## 📝 Technologies Used
 
