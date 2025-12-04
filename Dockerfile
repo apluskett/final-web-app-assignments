@@ -22,10 +22,14 @@ RUN apt-get update -qq && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Set production environment
+# Generate a secret_key_base for production if not provided
+RUN SECRET_KEY_BASE=$(ruby -e 'require "securerandom"; puts SecureRandom.hex(64)') && \
+    echo "SECRET_KEY_BASE=$SECRET_KEY_BASE" > /rails/.env.docker
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development"
+    BUNDLE_WITHOUT="development" \
+    SECRET_KEY_BASE="$(cat /rails/.env.docker | grep SECRET_KEY_BASE | cut -d'=' -f2)"
 
 # Throw-away build stage to reduce size of final image
 FROM base AS build
@@ -51,6 +55,9 @@ RUN npm install && npm run build
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
+
+# Ensure all bin scripts are executable to prevent permission denied errors
+RUN chmod +x ./bin/rails ./bin/thrust ./bin/docker-entrypoint
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
 RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
@@ -64,9 +71,11 @@ FROM base
 COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
 COPY --from=build /rails /rails
 
-# Run and own only the runtime files as a non-root user for security
+
 RUN groupadd --system --gid 1000 rails && \
     useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash && \
+    chown -R rails:rails /rails && \
+    chmod +x /rails/bin/rails /rails/bin/thrust /rails/bin/docker-entrypoint && \
     chown -R rails:rails db log storage tmp
 USER 1000:1000
 
@@ -75,4 +84,4 @@ ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start server via Thruster by default, this can be overwritten at runtime
 EXPOSE 80
-CMD ["./bin/thrust", "./bin/rails", "server"]
+CMD ["./bin/thrust", "./bin/rails", "server", "-b", "0.0.0.0"]

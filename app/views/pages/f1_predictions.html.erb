@@ -78,10 +78,11 @@
             <!-- Linear Model Predictions -->
             <div style="border: 1px solid var(--border-color); border-radius: 8px; padding: 1.5rem; background: var(--bg-secondary);">
               <h3 style="margin-top: 0; color: #007bff;">📊 Linear Regression Model</h3>
+              <% linear_preds = result[:predictions][:linear]['predictions'] rescue nil %>
               <% if result[:predictions][:linear]['error'] %>
                 <p style="color: #dc3545;"><%= result[:predictions][:linear]['error'] %></p>
-              <% elsif result[:predictions][:linear]['predictions'].present? %>
-                <% podium = result[:predictions][:linear]['predictions'].sort_by { |p| p['predicted_position'] }.first(3) %>
+              <% elsif linear_preds.is_a?(Array) && linear_preds.present? %>
+                <% podium = linear_preds.sort_by { |p| p['predicted_position'] }.first(3) %>
                 <ol style="font-size: 1.1rem; line-height: 2;">
                   <% podium.each do |driver| %>
                     <li><strong><%= driver['driver'] %></strong> (Grid: <%= driver['grid'].to_i %>)</li>
@@ -95,10 +96,11 @@
             <!-- XGBoost Model Predictions -->
             <div style="border: 1px solid var(--border-color); border-radius: 8px; padding: 1.5rem; background: var(--bg-secondary);">
               <h3 style="margin-top: 0; color: #28a745;">🤖 XGBoost Model</h3>
+              <% xgb_preds = result[:predictions][:xgboost]['predictions'] rescue nil %>
               <% if result[:predictions][:xgboost]['error'] %>
                 <p style="color: #dc3545;"><%= result[:predictions][:xgboost]['error'] %></p>
-              <% elsif result[:predictions][:xgboost]['predictions'].present? %>
-                <% podium = result[:predictions][:xgboost]['predictions'].sort_by { |p| p['predicted_position'] }.first(3) %>
+              <% elsif xgb_preds.is_a?(Array) && xgb_preds.present? %>
+                <% podium = xgb_preds.sort_by { |p| p['predicted_position'] }.first(3) %>
                 <ol style="font-size: 1.1rem; line-height: 2;">
                   <% podium.each do |driver| %>
                     <li><strong><%= driver['driver'] %></strong> (Grid: <%= driver['grid'].to_i %>)</li>
@@ -118,7 +120,7 @@
             
             <div style="margin-top: 1rem; overflow-x: auto;">
               <h4 style="color: var(--text-primary);">Linear Regression - All Predictions</h4>
-              <% if result[:predictions][:linear]['predictions'] %>
+              <% if linear_preds.is_a?(Array) && linear_preds.present? %>
                 <table style="width: 100%; border-collapse: collapse; margin-bottom: 2rem;">
                   <thead>
                     <tr style="background: var(--bg-secondary);">
@@ -129,7 +131,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <% result[:predictions][:linear]['predictions'].sort_by { |p| p['predicted_position'] }.each_with_index do |driver, idx| %>
+                    <% linear_preds.sort_by { |p| p['predicted_position'] }.each_with_index do |driver, idx| %>
                       <tr style="<%= idx < 3 ? 'background: rgba(255, 243, 205, 0.3);' : '' %> color: var(--text-primary);">
                         <td style="padding: 0.75rem; border: 1px solid var(--border-color); color: var(--text-primary);"><%= idx + 1 %></td>
                         <td style="padding: 0.75rem; border: 1px solid var(--border-color); color: var(--text-primary);"><strong><%= driver['driver'] %></strong></td>
@@ -142,7 +144,7 @@
               <% end %>
               
               <h4 style="color: var(--text-primary);">XGBoost - All Predictions</h4>
-              <% if result[:predictions][:xgboost]['predictions'] %>
+              <% if xgb_preds.is_a?(Array) && xgb_preds.present? %>
                 <table style="width: 100%; border-collapse: collapse;">
                   <thead>
                     <tr style="background: var(--bg-secondary);">
@@ -153,7 +155,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <% result[:predictions][:xgboost]['predictions'].sort_by { |p| p['predicted_position'] }.each_with_index do |driver, idx| %>
+                    <% xgb_preds.sort_by { |p| p['predicted_position'] }.each_with_index do |driver, idx| %>
                       <tr style="<%= idx < 3 ? 'background: rgba(212, 237, 218, 0.3);' : '' %> color: var(--text-primary);">
                         <td style="padding: 0.75rem; border: 1px solid var(--border-color); color: var(--text-primary);"><%= idx + 1 %></td>
                         <td style="padding: 0.75rem; border: 1px solid var(--border-color); color: var(--text-primary);"><strong><%= driver['driver'] %></strong></td>

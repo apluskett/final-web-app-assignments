@@ -6,10 +6,18 @@ function F1Predictions() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Debug: log state changes
+  React.useEffect(() => {
+    console.log('Predictions state updated:', predictions);
+  }, [predictions]);
+  React.useEffect(() => {
+    if (error) console.error('Prediction error:', error);
+  }, [error]);
+
   const handlePredict = async () => {
     setLoading(true);
     setError(null);
-    
+    console.log('Sending fetch to /api/f1_predictions/predict...');
     try {
       const response = await fetch('/api/f1_predictions/predict', {
         method: 'POST',
@@ -18,15 +26,18 @@ function F1Predictions() {
           'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.content || ''
         }
       });
-      
+      console.log('Fetch response:', response);
       if (!response.ok) {
-        throw new Error('Failed to fetch predictions');
+        const text = await response.text();
+        console.error('Non-OK response:', response.status, text);
+        throw new Error('Failed to fetch predictions: ' + response.status);
       }
-      
       const data = await response.json();
+      console.log('Fetched predictions data:', data);
       setPredictions(data);
     } catch (err) {
       setError(err.message);
+      console.error('Fetch error:', err);
     } finally {
       setLoading(false);
     }
@@ -200,7 +211,7 @@ function F1Predictions() {
                 
                 <div style={{
                   display: 'grid',
-                  gridTemplateColumns: '1fr 1fr',
+                  gridTemplateColumns: '1fr 1fr 1fr',
                   gap: '2rem',
                   marginBottom: '2rem'
                 }}>
@@ -257,6 +268,37 @@ function F1Predictions() {
                       </ol>
                     ) : (
                       <p style={{ color: '#dc3545' }}>No predictions available</p>
+                    )}
+                  </div>
+                  
+                  {/* Actual Results */}
+                  <div style={{
+                    border: '2px solid #FFD700',
+                    borderRadius: '8px',
+                    padding: '1.5rem',
+                    background: 'var(--bg-secondary)'
+                  }}>
+                    <h3 style={{ marginTop: 0, color: '#FFD700' }}>
+                      🏆 Actual Race Result
+                    </h3>
+                    {result.race.actual_podium ? (
+                      <ol style={{ fontSize: '1.1rem', lineHeight: 2 }}>
+                        {result.race.actual_podium.map((driver, idx) => (
+                          <li key={idx} style={{ 
+                            color: 'var(--text-primary)',
+                            fontWeight: 'bold'
+                          }}>
+                            {driver}
+                          </li>
+                        ))}
+                      </ol>
+                    ) : (
+                      <p style={{ 
+                        color: 'var(--text-secondary)',
+                        fontStyle: 'italic'
+                      }}>
+                        Race will complete on {result.race.date}
+                      </p>
                     )}
                   </div>
                 </div>

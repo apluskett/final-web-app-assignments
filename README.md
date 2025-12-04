@@ -23,9 +23,10 @@ A full-stack web application showcasing machine learning predictions for Formula
 - **ML API container** running on port 8000 (see [Machine Learning API Project](https://github.com/apluskett/Machine-Learning-API-project))
 - **Podman or Docker**
 
+git clone https://github.com/apluskett/Machine-Learning-API-project.git
 ### Required: ML API Setup
 
-This web app requires the F1 ML API to be running. Clone and start the API first:
+This web app requires the F1 ML API to be running. For production, the app uses the hosted API at [https://ml.alexpluskett.com](https://ml.alexpluskett.com). For local development, you can run your own instance:
 
 ```bash
 # Clone the ML API repository
@@ -33,7 +34,7 @@ git clone https://github.com/apluskett/Machine-Learning-API-project.git
 cd Machine-Learning-API-project
 
 # Follow the setup instructions in that repository's README
-# The API must be running on port 8000
+# The API must be running on port 8000 for local development
 ```
 
 ### Build React Frontend
@@ -52,14 +53,14 @@ This compiles the React application into `app/assets/builds/application.js`
 
 ```bash
 docker build -t final-web-app -f Dockerfile .
-docker run -d -p 3000:3000 --name final-web-app
+docker run -d -p 3000:3000 --name final-web-app localhost/final-web-app:latest
 ```
 
 ### Using Podman
 
 ```bash
 podman build -t final-web-app -f Dockerfile .
-podman run -d -p 3000:3000 --name final-web-app
+podman run -d -p 3000:3000 --name final-web-app localhost/final-web-app:latest
 ```
 
 ### Local Development
@@ -208,9 +209,9 @@ app/
    - Limited tire strategy modeling
 
 2. **Technical Constraints**:
-   - Requires ML API container running on port 8000
-   - Predictions cached for 1 hour (not real-time)
-   - Container networking requires host IP (192.168.x.x)
+  - Requires ML API endpoint (production: https://ml.alexpluskett.com, local: port 8000)
+  - Predictions cached for 1 hour (not real-time)
+  - Container networking requires host IP (192.168.x.x) for local development
 
 3. **Future Improvements**:
    - Add weather API integration

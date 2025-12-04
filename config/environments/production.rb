@@ -1,6 +1,8 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
+  # Serve static files in production (for Docker/Podman containerized deploys)
+  config.public_file_server.enabled = true
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
@@ -46,8 +48,8 @@ Rails.application.configure do
   # Don't log any deprecations.
   config.active_support.report_deprecations = false
 
-  # Replace the default in-process memory cache store with a durable alternative.
-  config.cache_store = :solid_cache_store
+  # Use null cache store to avoid database issues with Solid Cache in production
+  config.cache_store = :null_store
 
   # Replace the default in-process and non-durable queuing backend for Active Job.
   config.active_job.queue_adapter = :solid_queue
@@ -80,10 +82,15 @@ Rails.application.configure do
   config.active_record.attributes_for_inspect = [ :id ]
 
   # Enable DNS rebinding protection and other `Host` header attacks.
-  # config.hosts = [
-  #   "example.com",     # Allow requests from example.com
-  #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
-  # ]
+  # Allow requests from your current IP (example: 10.0.2.100)
+  config.hosts = [
+    "example.com",     # Allow requests from example.com
+    /.*\.example\.com/, # Allow requests from subdomains like `www.example.com`
+    "10.0.2.100",      # Allow requests from your current IP
+    "localhost",       # Allow requests from localhost
+    "localhost:3000",  # Allow requests from localhost:3000
+    "192.168.0.86"     # Allow requests from your LAN IP (adjust as needed)
+  ]
   #
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }

@@ -25882,7 +25882,7 @@
       color: "var(--text-secondary)"
     } }, "(F1 race highlights cannot be embedded but can be watched directly on YouTube)"))), /* @__PURE__ */ import_react4.default.createElement("div", { style: { padding: "2rem" } }, /* @__PURE__ */ import_react4.default.createElement("h2", { style: { marginTop: 0, color: "#E10600" } }, "\u{1F3C6} Predicted Podium"), /* @__PURE__ */ import_react4.default.createElement("div", { style: {
       display: "grid",
-      gridTemplateColumns: "1fr 1fr",
+      gridTemplateColumns: "1fr 1fr 1fr",
       gap: "2rem",
       marginBottom: "2rem"
     } }, /* @__PURE__ */ import_react4.default.createElement("div", { style: {
@@ -25895,7 +25895,18 @@
       borderRadius: "8px",
       padding: "1.5rem",
       background: "var(--bg-secondary)"
-    } }, /* @__PURE__ */ import_react4.default.createElement("h3", { style: { marginTop: 0, color: "#28a745" } }, "\u{1F916} XGBoost Model"), result.predictions.xgboost.error ? /* @__PURE__ */ import_react4.default.createElement("p", { style: { color: "#dc3545" } }, result.predictions.xgboost.error) : result.predictions.xgboost.predictions?.length > 0 ? /* @__PURE__ */ import_react4.default.createElement("ol", { style: { fontSize: "1.1rem", lineHeight: 2 } }, result.predictions.xgboost.predictions.sort((a, b) => a.predicted_position - b.predicted_position).slice(0, 3).map((driver, idx) => /* @__PURE__ */ import_react4.default.createElement("li", { key: idx, style: { color: "var(--text-primary)" } }, /* @__PURE__ */ import_react4.default.createElement("strong", null, driver.driver), " (Grid: ", Math.floor(driver.grid), ")"))) : /* @__PURE__ */ import_react4.default.createElement("p", { style: { color: "#dc3545" } }, "No predictions available"))), /* @__PURE__ */ import_react4.default.createElement("details", { style: { marginTop: "2rem" } }, /* @__PURE__ */ import_react4.default.createElement("summary", { style: {
+    } }, /* @__PURE__ */ import_react4.default.createElement("h3", { style: { marginTop: 0, color: "#28a745" } }, "\u{1F916} XGBoost Model"), result.predictions.xgboost.error ? /* @__PURE__ */ import_react4.default.createElement("p", { style: { color: "#dc3545" } }, result.predictions.xgboost.error) : result.predictions.xgboost.predictions?.length > 0 ? /* @__PURE__ */ import_react4.default.createElement("ol", { style: { fontSize: "1.1rem", lineHeight: 2 } }, result.predictions.xgboost.predictions.sort((a, b) => a.predicted_position - b.predicted_position).slice(0, 3).map((driver, idx) => /* @__PURE__ */ import_react4.default.createElement("li", { key: idx, style: { color: "var(--text-primary)" } }, /* @__PURE__ */ import_react4.default.createElement("strong", null, driver.driver), " (Grid: ", Math.floor(driver.grid), ")"))) : /* @__PURE__ */ import_react4.default.createElement("p", { style: { color: "#dc3545" } }, "No predictions available")), /* @__PURE__ */ import_react4.default.createElement("div", { style: {
+      border: "2px solid #FFD700",
+      borderRadius: "8px",
+      padding: "1.5rem",
+      background: "var(--bg-secondary)"
+    } }, /* @__PURE__ */ import_react4.default.createElement("h3", { style: { marginTop: 0, color: "#FFD700" } }, "\u{1F3C6} Actual Race Result"), result.race.actual_podium ? /* @__PURE__ */ import_react4.default.createElement("ol", { style: { fontSize: "1.1rem", lineHeight: 2 } }, result.race.actual_podium.map((driver, idx) => /* @__PURE__ */ import_react4.default.createElement("li", { key: idx, style: {
+      color: "var(--text-primary)",
+      fontWeight: "bold"
+    } }, driver))) : /* @__PURE__ */ import_react4.default.createElement("p", { style: {
+      color: "var(--text-secondary)",
+      fontStyle: "italic"
+    } }, "Race will complete on ", result.race.date))), /* @__PURE__ */ import_react4.default.createElement("details", { style: { marginTop: "2rem" } }, /* @__PURE__ */ import_react4.default.createElement("summary", { style: {
       cursor: "pointer",
       fontSize: "1.1rem",
       fontWeight: "bold",
