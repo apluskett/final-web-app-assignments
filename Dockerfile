@@ -17,9 +17,10 @@ WORKDIR /rails
 # Install base packages including Node.js and npm
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 && \
-    curl -fsSL https://deb.nodesource.com/setup_20.x | bash && \
+    curl -fsSL https://deb.nodesource.com/setup_20.x -o nodesource_setup.sh && \
+    bash nodesource_setup.sh && \
     apt-get install --no-install-recommends -y nodejs && \
-    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives nodesource_setup.sh
 
 # Set production environment
 ENV RAILS_ENV="production" \
