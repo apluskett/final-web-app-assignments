@@ -53,7 +53,7 @@ This compiles the React application into `app/assets/builds/application.js`
 
 ```bash
 docker build -t final-web-app -f Dockerfile .
-docker run -d -p 3000:3000 --name final-web-app localhost/final-web-app:latest
+docker run -d -p 3000:3000 --name final-web-app final-web-app:latest
 ```
 
 ### Using Podman
