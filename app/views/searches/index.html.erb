@@ -5,35 +5,35 @@
 <%= form_with url: search_path, method: :get, local: true do |f| %>
   <div>
     <%= f.label :q, "Search" %>
-    <%= f.text_field :q, value: params[:q], placeholder: "employees, projects, offices, managers..." %>
+    <%= f.text_field :q, value: params[:q], placeholder: "courses, sections, students, prefixes..." %>
     <%= f.submit "Search" %>
   </div>
 <% end %>
 
-<h2>Employees</h2>
+<h2>Courses</h2>
 <ul>
-  <% @employees.each do |e| %>
-    <li><%= link_to e.name, employee_path(e) %> (id: <%= e.id %>)</li>
+  <% @courses.each do |c| %>
+    <li><%= link_to c.display_name, course_path(c) %> (id: <%= c.id %>)</li>
   <% end %>
 </ul>
 
-<h2>Projects</h2>
+<h2>Sections</h2>
 <ul>
-  <% @projects.each do |p| %>
-    <li><%= link_to p.project_name, project_path(p) %> — <%= truncate(p.description, length: 100) %></li>
+  <% @sections.each do |s| %>
+    <li><%= link_to s.name, section_path(s) %> — Course: <%= link_to s.course.display_name, course_path(s.course) %></li>
   <% end %>
 </ul>
 
-<h2>Offices</h2>
+<h2>Students</h2>
 <ul>
-  <% @offices.each do |o| %>
-    <li>Office <%= link_to o.number, office_path(o) %> — Employee: <%= link_to o.employee.name, employee_path(o.employee) if o.employee %></li>
+  <% @students.each do |s| %>
+    <li><%= link_to s.full_name, student_path(s) %> — ID: <%= s.student_id %></li>
   <% end %>
 </ul>
 
-<h2>Office managers</h2>
+<h2>Prefixes</h2>
 <ul>
-  <% @office_managers.each do |om| %>
-    <li><%= link_to om.name, office_manager_path(om) %></li>
+  <% @prefixes.each do |p| %>
+    <li><%= link_to p.display_name, prefixes_path %> — <%= pluralize(p.courses.count, 'course') %></li>
   <% end %>
 </ul>
