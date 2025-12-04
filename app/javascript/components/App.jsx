@@ -43,7 +43,7 @@ function Navigation() {
           }}>
             <li><Link to="/" style={{ textDecoration: 'none', fontWeight: 500, color: 'var(--link-color)' }}>Home</Link></li>
             <li><Link to="/demos" style={{ textDecoration: 'none', fontWeight: 500, color: 'var(--link-color)' }}>Demos</Link></li>
-            <li><a href="/employees" style={{ textDecoration: 'none', fontWeight: 500, color: 'var(--link-color)' }}>Employees</a></li>
+            <li><a href="/courses" style={{ textDecoration: 'none', fontWeight: 500, color: 'var(--link-color)' }}>Courses</a></li>
           </ul>
         </div>
         

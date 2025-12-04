@@ -279,4 +279,4 @@ Both must be running for full functionality.
 - F1 historical race data (official F1 archives)
 - YouTube race highlights (Formula 1 Official Channel)
 
-**Inspiration**: Previous Assignment 5 (employee management system) adapted for portfolio base 
+**Inspiration**: Course management system (Assignment 6) integrated with F1 predictions portfolio 

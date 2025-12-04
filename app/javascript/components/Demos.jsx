@@ -71,7 +71,7 @@ function Demos() {
           </div>
         </div>
         
-        {/* Employee Management Demo */}
+        {/* Course Management Demo */}
         <div style={{
           border: '2px solid #007bff',
           borderRadius: '12px',
@@ -82,14 +82,14 @@ function Demos() {
             <div style={{ fontSize: '3rem' }}>👥</div>
             <div style={{ flex: 1 }}>
               <h2 style={{ margin: '0 0 0.5rem 0', color: '#007bff' }}>
-                Employee Management System
+                Course Management System
               </h2>
               <p style={{
                 color: 'var(--text-secondary)',
                 lineHeight: 1.6,
                 marginBottom: '1rem'
               }}>
-                Full-featured CRUD application for managing employees, projects, offices, and office managers.
+                Full-featured CRUD application for managing courses, sections, students, and prefixes with rich relationships.
                 Includes advanced search functionality, relationship management, and data validation.
               </p>
               <div style={{
@@ -104,7 +104,7 @@ function Demos() {
                   Ruby on Rails 8, SQLite, Turbo, Stimulus, RESTful API
                 </span>
               </div>
-              <a href="/employees" style={{
+              <a href="/courses" style={{
                 display: 'inline-block',
                 padding: '0.75rem 2rem',
                 background: '#007bff',
@@ -114,7 +114,7 @@ function Demos() {
                 fontWeight: 'bold',
                 transition: 'background 0.3s'
               }}>
-                Launch Employee Demo →
+                Launch Course Demo →
               </a>
             </div>
           </div>

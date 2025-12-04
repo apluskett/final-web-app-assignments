@@ -117,12 +117,12 @@ function Home() {
             padding: '1.5rem',
             background: 'var(--bg-secondary)'
           }}>
-            <h3 style={{ marginTop: 0, color: 'var(--text-primary)' }}>Employee Management System</h3>
+            <h3 style={{ marginTop: 0, color: 'var(--text-primary)' }}>Course Management System</h3>
             <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6 }}>
               Full-stack Rails application with CRUD operations, search functionality, and relationship management 
-              for employees, projects, offices, and managers.
+              for courses, sections, students, and prefixes.
             </p>
-            <a href="/employees" style={{
+            <a href="/courses" style={{
               color: 'var(--link-color)',
               textDecoration: 'none',
               fontWeight: 'bold'

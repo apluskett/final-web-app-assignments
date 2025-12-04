@@ -9,11 +9,11 @@ Rails.application.routes.draw do
     post "f1_predictions/predict", to: "pages#predict_races"
   end
   
-  # Assignment 5 routes (traditional Rails views)
-  resources :projects
-  resources :office_managers
-  resources :offices
-  resources :employees
+  # Course Management System routes (traditional Rails views)
+  resources :prefixes
+  resources :courses
+  resources :sections
+  resources :students
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

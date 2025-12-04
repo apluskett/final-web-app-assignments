@@ -1,0 +1,41 @@
+<h1>Courses</h1>
+
+<%= link_to 'New Course', new_course_path, class: 'btn btn-primary' %>
+<%= link_to 'Back to Portfolio', root_path, class: 'btn btn-secondary' %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Prefix</th>
+      <th>Number</th>
+      <th>Full Name</th>
+      <th>Sections</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @courses.each do |course| %>
+      <tr>
+        <td><%= course.prefix.name %></td>
+        <td><%= course.number %></td>
+        <td><%= link_to course.full_name, course %></td>
+        <td><%= course.sections.count %></td>
+        <td>
+          <%= link_to 'Show', course, class: 'btn btn-sm btn-outline-primary' %>
+          <%= link_to 'Edit', edit_course_path(course), class: 'btn btn-sm btn-outline-secondary' %>
+          <%= link_to 'Delete', course, method: :delete, class: 'btn btn-sm btn-outline-danger',
+                      confirm: 'Are you sure?' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="mt-3">
+  <p><strong>Navigation:</strong></p>
+  <ul>
+    <li><%= link_to 'Prefixes', prefixes_path %></li>
+    <li><%= link_to 'Sections', sections_path %></li>
+    <li><%= link_to 'Students', students_path %></li>
+  </ul>
+</div>
