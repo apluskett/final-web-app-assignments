@@ -52,9 +52,20 @@ COPY . .
 COPY package.json package-lock.json ./
 RUN npm install && npm run build
 
+# Copy built assets to public directory for direct serving
+RUN mkdir -p public/assets/builds && \
+    cp -r app/assets/builds/* public/assets/builds/
+
+# Generate a new master key and credentials file for this container build
+# This allows anyone to build and run without needing the original master.key
+RUN rm -f config/master.key config/credentials.yml.enc && \
+    EDITOR="echo '# Add secrets here' >" bundle exec rails credentials:edit
+
+# Precompile Rails assets (CSS, JS) for production
+RUN SECRET_KEY_BASE=dummy bundle exec rails assets:precompile
+
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
-
 
 # Ensure all bin scripts are executable to prevent permission denied errors
 RUN chmod +x ./bin/rails ./bin/thrust ./bin/docker-entrypoint
@@ -77,8 +88,9 @@ RUN groupadd --system --gid 1000 rails && \
     chown -R rails:rails db log storage tmp
 USER 1000:1000
 
-# Entrypoint prepares the database.
-ENTRYPOINT ["/rails/bin/docker-entrypoint"]
+# Entrypoint prepares the database. Invoke the script through bash to avoid
+# exec failures if the shebang is mangled by CRLF or not present in the image.
+ENTRYPOINT ["bash", "/rails/bin/docker-entrypoint"]
 
 # Start server via Thruster by default, this can be overwritten at runtime
 EXPOSE 80

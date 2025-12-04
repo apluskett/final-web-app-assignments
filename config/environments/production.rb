@@ -84,12 +84,12 @@ Rails.application.configure do
   # Enable DNS rebinding protection and other `Host` header attacks.
   # Allow requests from your current IP (example: 10.0.2.100)
   config.hosts = [
-    "example.com",     # Allow requests from example.com
-    /.*\.example\.com/, # Allow requests from subdomains like `www.example.com`
-    "10.0.2.100",      # Allow requests from your current IP
-    "localhost",       # Allow requests from localhost
-    "localhost:3000",  # Allow requests from localhost:3000
-    "192.168.0.86"     # Allow requests from your LAN IP (adjust as needed)
+    "alexpluskett.com",     # Allow requests from alexpluskett.com
+    /.*\.alexpluskett\.com/, # Allow requests from subdomains like `www.alexpluskett.com`
+    "10.0.2.100",           # Allow requests from your current IP
+    "localhost",            # Allow requests from localhost
+    "localhost:3000",       # Allow requests from localhost:3000
+    "192.168.0.86"          # Allow requests from your LAN IP (adjust as needed)
   ]
   #
   # Skip DNS rebinding protection for the default health check endpoint.
