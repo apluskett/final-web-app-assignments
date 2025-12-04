@@ -22,14 +22,11 @@ RUN apt-get update -qq && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Set production environment
-# Generate a secret_key_base for production if not provided
-RUN SECRET_KEY_BASE=$(ruby -e 'require "securerandom"; puts SecureRandom.hex(64)') && \
-    echo "SECRET_KEY_BASE=$SECRET_KEY_BASE" > /rails/.env.docker
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
     BUNDLE_WITHOUT="development" \
-    SECRET_KEY_BASE="$(cat /rails/.env.docker | grep SECRET_KEY_BASE | cut -d'=' -f2)"
+    SECRET_KEY_BASE="dummy-key-for-build"
 
 # Throw-away build stage to reduce size of final image
 FROM base AS build
@@ -59,7 +56,8 @@ RUN bundle exec bootsnap precompile app/ lib/
 # Ensure all bin scripts are executable to prevent permission denied errors
 RUN chmod +x ./bin/rails ./bin/thrust ./bin/docker-entrypoint
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
+RUN --mount=type=cache,target=/rails/tmp/cache \
+    SECRET_KEY_BASE=dummy ./bin/rails assets:precompile
 
 
 
