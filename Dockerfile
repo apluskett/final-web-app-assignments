@@ -56,8 +56,8 @@ RUN bundle exec bootsnap precompile app/ lib/
 # Ensure all bin scripts are executable to prevent permission denied errors
 RUN chmod +x ./bin/rails ./bin/thrust ./bin/docker-entrypoint
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN --mount=type=cache,target=/rails/tmp/cache \
-    SECRET_KEY_BASE=dummy ./bin/rails assets:precompile
+ENV SECRET_KEY_BASE=dummy-for-build
+RUN ./bin/rails assets:precompile
 
 
 
