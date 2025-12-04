@@ -12,10 +12,12 @@ class SectionsController < ApplicationController
   def new
     @section = Section.new
     @courses = Course.includes(:prefix).all
+    @students = Student.all
   end
 
   def edit
     @courses = Course.includes(:prefix).all
+    @students = Student.all
     @available_students = Student.where.not(id: @section.student_ids)
   end
 

@@ -1,0 +1,23 @@
+john_intro_morning:
+  section: intro_morning
+  student: john_doe
+
+jane_intro_morning:
+  section: intro_morning
+  student: jane_smith
+
+bob_advanced_morning:
+  section: advanced_morning
+  student: bob_johnson
+
+alice_calculus_a:
+  section: calculus_section_a
+  student: alice_williams
+
+charlie_english:
+  section: english_section_one
+  student: charlie_brown
+
+john_calculus_a:
+  section: calculus_section_a
+  student: john_doe

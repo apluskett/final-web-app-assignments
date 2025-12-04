@@ -1,0 +1,15 @@
+computer_science:
+  code: CS
+  description: Computer Science
+
+mathematics:
+  code: MATH
+  description: Mathematics
+
+english:
+  code: ENGL
+  description: English Literature
+
+physics:
+  code: PHYS
+  description: Physics

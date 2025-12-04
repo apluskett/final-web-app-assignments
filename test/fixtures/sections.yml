@@ -1,0 +1,27 @@
+intro_morning:
+  course: intro_programming
+  name: Section 001 - Morning
+
+intro_evening:
+  course: intro_programming
+  name: Section 002 - Evening
+
+advanced_morning:
+  course: advanced_programming
+  name: Section 001 - Morning
+
+calculus_section_a:
+  course: calculus_one
+  name: Section A
+
+calculus_section_b:
+  course: calculus_one
+  name: Section B
+
+english_section_one:
+  course: english_composition
+  name: Section 001
+
+physics_lab:
+  course: physics_mechanics
+  name: Lab Section

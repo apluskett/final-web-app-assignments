@@ -1,0 +1,34 @@
+intro_programming:
+  prefix: computer_science
+  number: "101"
+  title: Introduction to Programming
+  credit_hours: 3
+  syllabus: "This course introduces students to programming concepts using Python. Topics include variables, control structures, functions, and basic data structures."
+
+advanced_programming:
+  prefix: computer_science
+  number: "201"
+  title: Advanced Programming
+  credit_hours: 4
+  syllabus: "Advanced programming topics including object-oriented programming, data structures, and algorithms."
+
+calculus_one:
+  prefix: mathematics
+  number: "151"
+  title: Calculus I
+  credit_hours: 4
+  syllabus: "Differential calculus with applications. Limits, derivatives, and applications of derivatives."
+
+english_composition:
+  prefix: english
+  number: "101"
+  title: English Composition
+  credit_hours: 3
+  syllabus: "Introduction to college-level writing with emphasis on critical thinking and clear expression."
+
+physics_mechanics:
+  prefix: physics
+  number: "201"
+  title: Physics - Mechanics
+  credit_hours: 4
+  syllabus: "Classical mechanics including kinematics, dynamics, energy, and momentum."

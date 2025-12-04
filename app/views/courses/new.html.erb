@@ -1,0 +1,90 @@
+<% content_for :title, "New Course" %>
+
+<div class="max-w-2xl mx-auto p-6">
+  <div class="bg-white rounded-lg shadow-md p-8">
+    <h1 class="text-2xl font-bold text-gray-900 mb-6">Create New Course</h1>
+
+    <%= form_with(model: @course, local: true, class: "space-y-6") do |form| %>
+      <% if @course.errors.any? %>
+        <div class="bg-red-50 border border-red-200 rounded-md p-4">
+          <h2 class="text-red-800 font-semibold mb-2">
+            <%= pluralize(@course.errors.count, "error") %> prohibited this course from being saved:
+          </h2>
+          <ul class="list-disc list-inside text-red-700 space-y-1">
+            <% @course.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div>
+        <%= form.label :prefix_id, "Prefix", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= form.select :prefix_id, 
+            options_from_collection_for_select(@prefixes, :id, :display_name, @course.prefix_id),
+            { prompt: "Select a prefix..." },
+            { class: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" } %>
+      </div>
+
+      <div>
+        <%= form.label :number, "Course Number", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= form.text_field :number, 
+            class: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+            placeholder: "e.g. 101, 250, 3310" %>
+      </div>
+
+      <div>
+        <%= form.label :title, "Course Title", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= form.text_field :title, 
+            class: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+            placeholder: "e.g. Introduction to Computer Science" %>
+      </div>
+
+      <div>
+        <%= form.label :credit_hours, "Credit Hours", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= form.number_field :credit_hours, 
+            min: 1, max: 6, step: 1,
+            class: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+      </div>
+
+      <div>
+        <%= form.label :syllabus, "Syllabus", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= form.text_area :syllabus, 
+            rows: 8,
+            id: "syllabus_editor",
+            class: "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+            placeholder: "Enter course description, objectives, requirements, etc." %>
+        <p class="mt-1 text-sm text-gray-500">Use the rich text editor above for formatting.</p>
+      </div>
+
+      <div class="flex gap-3 pt-6">
+        <%= form.submit "Create Course", 
+            class: "bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors font-medium" %>
+        <%= link_to 'Cancel', courses_path, 
+            class: "bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 transition-colors font-medium" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  tinymce.init({
+    selector: '#syllabus_editor',
+    height: 300,
+    menubar: false,
+    plugins: [
+      'advlist', 'autolink', 'lists', 'link', 'charmap', 'preview',
+      'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+      'insertdatetime', 'media', 'table', 'help', 'wordcount'
+    ],
+    toolbar: 'undo redo | blocks | ' +
+      'bold italic backcolor | alignleft aligncenter ' +
+      'alignright alignjustify | bullist numlist outdent indent | ' +
+      'removeformat | help',
+    content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif; font-size: 14px; }',
+    branding: false,
+    promotion: false
+  });
+});
+</script>
