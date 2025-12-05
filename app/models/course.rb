@@ -1,6 +1,7 @@
 class Course < ApplicationRecord
   belongs_to :prefix
   has_many :sections, dependent: :destroy
+  has_rich_text :syllabus
   
   validates :title, presence: true
   validates :number, presence: true, uniqueness: { scope: :prefix_id }

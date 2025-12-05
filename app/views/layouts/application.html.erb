@@ -10,8 +10,54 @@
 
     <%= yield :head %>
     
-    <!-- TinyMCE Rich Text Editor -->
-    <script src="https://cdn.tiny.cloud/1/<%= Rails.application.credentials.tinymce_api_key || ENV['TINYMCE_API_KEY'] || 'no-api-key' %>/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <!-- Trix Rich Text Editor (FOSS Alternative) -->
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
+    <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
+    
+    <!-- Custom Trix Editor Styling -->
+    <style>
+      /* Ensure Trix editor has white background and dark text for all themes */
+      trix-editor {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        border: 1px solid #d1d5db !important;
+        border-radius: 0.375rem !important;
+        min-height: 120px !important;
+      }
+      
+      trix-editor:focus {
+        outline: none !important;
+        border-color: #3b82f6 !important;
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
+      }
+      
+      /* Style the toolbar to match */
+      trix-toolbar {
+        background-color: #f9fafb !important;
+        border: 1px solid #d1d5db !important;
+        border-bottom: none !important;
+        border-radius: 0.375rem 0.375rem 0 0 !important;
+      }
+      
+      trix-toolbar .trix-button-group {
+        background-color: transparent !important;
+      }
+      
+      trix-toolbar .trix-button {
+        background-color: transparent !important;
+        color: #374151 !important;
+        border: none !important;
+      }
+      
+      trix-toolbar .trix-button:hover {
+        background-color: #e5e7eb !important;
+      }
+      
+      trix-toolbar .trix-button.trix-active {
+        background-color: #dbeafe !important;
+        color: #1d4ed8 !important;
+      }
+    </style>
 
     <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
     <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>

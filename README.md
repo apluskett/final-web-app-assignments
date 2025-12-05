@@ -53,19 +53,17 @@ This compiles the React application into `app/assets/builds/application.js`
 
 ```bash
 docker build -t final-web-app .
-docker run -e TINYMCE_API_KEY=your_api_key_here -d -p 3000:3000 --name final-web-app final-web-app
+docker run -d -p 3000:3000 --name final-web-app final-web-app
 ```
 
 ### Using Podman
 
 ```bash
 podman build -t final-web-app .
-podman run -e TINYMCE_API_KEY=your_api_key_here -d -p 3000:3000 --name final-web-app final-web-app
+podman run -d -p 3000:3000 --name final-web-app final-web-app
 ```
 
-**Note**: Replace `your_api_key_here` with your actual TinyMCE API key for rich text editing functionality.
-
-**For this project, use**: `sq1xw96jefpsewgycndhmzmg6yq6xdycs0vis8akcxj51sl1`
+**Note**: Rich text editing now uses Trix (FOSS editor) via Rails ActionText - no external API keys needed!
 
 ### Local Development
 
