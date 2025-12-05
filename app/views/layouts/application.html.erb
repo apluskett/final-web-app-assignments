@@ -142,7 +142,7 @@
   </head>
 
   <body>
-    <header style="background: var(--bg-secondary); border-bottom: 2px solid var(--border-color); padding: 1rem 2rem; margin-bottom: 2rem;">
+    <header style="background: var(--bg-secondary); border-bottom: 2px solid var(--border-color); padding: 1rem 2rem;">
       <nav style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
         <div style="display: flex; gap: 2rem; align-items: center;">
           <%= link_to 'Alex Pluskett', root_path, style: "font-size: 1.5rem; font-weight: bold; text-decoration: none; color: var(--text-primary);" %>
@@ -159,6 +159,21 @@
           <button class="theme-btn" data-theme-btn="f1">🏎️ F1</button>
         </div>
       </nav>
+    </header>
+    
+    <!-- Course Management Navigation (only show on course pages) -->
+    <% if request.path.start_with?('/courses', '/sections', '/students', '/prefixes') %>
+      <nav style="background: var(--bg-secondary); border-bottom: 2px solid var(--border-color); padding: 0.75rem 2rem; margin-bottom: 2rem;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+          <ul style="list-style: none; display: flex; gap: 2rem; padding: 0; margin: 0;">
+            <li><%= link_to '📚 Courses', courses_path, style: "text-decoration: none; color: var(--link-color); font-weight: #{request.path.start_with?('/courses') ? 'bold' : 'normal'};" %></li>
+            <li><%= link_to '📝 Sections', sections_path, style: "text-decoration: none; color: var(--link-color); font-weight: #{request.path.start_with?('/sections') ? 'bold' : 'normal'};" %></li>
+            <li><%= link_to '👨‍🎓 Students', students_path, style: "text-decoration: none; color: var(--link-color); font-weight: #{request.path.start_with?('/students') ? 'bold' : 'normal'};" %></li>
+            <li><%= link_to '🏷️ Prefixes', prefixes_path, style: "text-decoration: none; color: var(--link-color); font-weight: #{request.path.start_with?('/prefixes') ? 'bold' : 'normal'};" %></li>
+          </ul>
+        </div>
+      </nav>
+    <% end %>
     </header>
 
     <main style="min-height: 70vh;">
