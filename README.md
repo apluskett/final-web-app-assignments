@@ -52,16 +52,20 @@ This compiles the React application into `app/assets/builds/application.js`
 ### Using Docker
 
 ```bash
-docker build -t final-web-app -f Dockerfile .
-docker run -d -p 3000:3000 --name final-web-app final-web-app:latest
+docker build -t final-web-app .
+docker run -e TINYMCE_API_KEY=your_api_key_here -d -p 3000:3000 --name final-web-app final-web-app
 ```
 
 ### Using Podman
 
 ```bash
-podman build -t final-web-app -f Dockerfile .
-podman run -d -p 3000:3000 --name final-web-app localhost/final-web-app:latest
+podman build -t final-web-app .
+podman run -e TINYMCE_API_KEY=your_api_key_here -d -p 3000:3000 --name final-web-app final-web-app
 ```
+
+**Note**: Replace `your_api_key_here` with your actual TinyMCE API key for rich text editing functionality.
+
+**For this project, use**: `sq1xw96jefpsewgycndhmzmg6yq6xdycs0vis8akcxj51sl1`
 
 ### Local Development
 
@@ -81,6 +85,8 @@ rails server -b 0.0.0.0 -p 3000
 ```
 
 Then access the portfolio at http://localhost:3000
+
+**Important**: Use **http://localhost:3000** (not https://) - the application is configured for HTTP-only in local development to avoid SSL certificate issues.
 
 **Note**: After making changes to React components in `app/javascript/components/`, run `npm run build` to rebuild the frontend.
 
@@ -246,10 +252,10 @@ app/
 ## 🔗 Architecture
 
 ```
-Browser (Port 3000) ←→ Rails App (Container) ←→ FastAPI ML API (Port 8000)
-                       [React Frontend]            [Python ML Service]
-                       [Rails API Backend]         ├── Linear Regression Model
-                                                   └── XGBoost Model
+Browser (Port 3000) ←→ Rails App (Container:3000) ←→ FastAPI ML API (Port 8000)
+                       [React Frontend]              [Python ML Service]
+                       [Rails API Backend]           ├── Linear Regression Model
+                                                     └── XGBoost Model
 ```
 
 **Two-Part System:**

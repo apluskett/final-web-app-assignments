@@ -5,26 +5,32 @@ Course.destroy_all
 Prefix.destroy_all
 
 # Create prefixes
-cs_prefix = Prefix.create!(name: "CS")
-math_prefix = Prefix.create!(name: "MATH")
-phys_prefix = Prefix.create!(name: "PHYS")
+cs_prefix = Prefix.create!(code: "CS", description: "Computer Science")
+math_prefix = Prefix.create!(code: "MATH", description: "Mathematics")
+phys_prefix = Prefix.create!(code: "PHYS", description: "Physics")
 
 # Create courses
 cs3710 = Course.create!(
   prefix: cs_prefix,
   number: "3710",
+  title: "Advanced Software Engineering",
+  credit_hours: 3,
   syllabus: "<h2>CS 3710 - Advanced Software Engineering</h2><p>This course covers advanced topics in software engineering including design patterns, testing, and project management.</p><ul><li>Design patterns and architecture</li><li>Test-driven development</li><li>Version control and CI/CD</li></ul>"
 )
 
 math2410 = Course.create!(
   prefix: math_prefix,
   number: "2410",
+  title: "Statistics",
+  credit_hours: 3,
   syllabus: "<h2>MATH 2410 - Statistics</h2><p>Introduction to statistical methods and probability theory.</p>"
 )
 
 phys2311 = Course.create!(
   prefix: phys_prefix,
   number: "2311",
+  title: "General Physics I",
+  credit_hours: 4,
   syllabus: "<h2>PHYS 2311 - General Physics I</h2><p>Classical mechanics, thermodynamics, and wave motion.</p>"
 )
 
@@ -36,11 +42,11 @@ phys_section_001 = Section.create!(course: phys2311, name: "001")
 
 # Create students
 students = [
-  Student.create!(name: "Alexander Pluskett", student_id: "1001"),
-  Student.create!(name: "Jane Smith", student_id: "1002"),
-  Student.create!(name: "Bob Johnson", student_id: "1003"),
-  Student.create!(name: "Alice Brown", student_id: "1004"),
-  Student.create!(name: "Charlie Davis", student_id: "1005")
+  Student.create!(first_name: "Alexander", last_name: "Pluskett", student_id: "S001001", email: "alexander.pluskett@university.edu"),
+  Student.create!(first_name: "Jane", last_name: "Smith", student_id: "S001002", email: "jane.smith@university.edu"),
+  Student.create!(first_name: "Bob", last_name: "Johnson", student_id: "S001003", email: "bob.johnson@university.edu"),
+  Student.create!(first_name: "Alice", last_name: "Brown", student_id: "S001004", email: "alice.brown@university.edu"),
+  Student.create!(first_name: "Charlie", last_name: "Davis", student_id: "S001005", email: "charlie.davis@university.edu")
 ]
 
 # Enroll students in sections

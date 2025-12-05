@@ -2,14 +2,20 @@ class Course < ApplicationRecord
   belongs_to :prefix
   has_many :sections, dependent: :destroy
   
+  validates :title, presence: true
   validates :number, presence: true, uniqueness: { scope: :prefix_id }
+  validates :credit_hours, presence: true, numericality: { greater_than: 0 }
   validates :prefix_id, presence: true
   
   def full_name
-    "#{prefix.name} #{number}"
+    "#{prefix.code} #{number}"
   end
   
   def to_s
-    full_name
+    "#{full_name} - #{title}"
+  end
+  
+  def display_name
+    "#{full_name} - #{title}"
   end
 end

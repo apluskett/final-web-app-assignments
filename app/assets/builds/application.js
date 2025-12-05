@@ -25656,11 +25656,7 @@
       borderRadius: "8px",
       padding: "1.5rem",
       background: "var(--bg-secondary)"
-    } }, /* @__PURE__ */ import_react2.default.createElement("h3", { style: { marginTop: 0, color: "var(--text-primary)" } }, "Employee Management System"), /* @__PURE__ */ import_react2.default.createElement("p", { style: { color: "var(--text-secondary)", lineHeight: 1.6 } }, "Full-stack Rails application with CRUD operations, search functionality, and relationship management for employees, projects, offices, and managers."), /* @__PURE__ */ import_react2.default.createElement("a", { href: "/employees", style: {
-      color: "var(--link-color)",
-      textDecoration: "none",
-      fontWeight: "bold"
-    } }, "View System \u2192")), /* @__PURE__ */ import_react2.default.createElement("div", { style: {
+    } }, /* @__PURE__ */ import_react2.default.createElement("h3", { style: { marginTop: 0, color: "var(--text-primary)" } }, "Course Management System"), /* @__PURE__ */ import_react2.default.createElement("p", { style: { color: "var(--text-secondary)", lineHeight: 1.6 } }, "Full-stack Rails application with CRUD operations, search functionality, and relationship management for sections, students, and prefixes."), /* @__PURE__ */ import_react2.default.createElement("p", { style: { color: "var(--text-secondary)", fontStyle: "italic" } }, "Course management available in demonstration mode only.")), /* @__PURE__ */ import_react2.default.createElement("div", { style: {
       border: "1px solid var(--border-color)",
       borderRadius: "8px",
       padding: "1.5rem",
@@ -25722,17 +25718,17 @@
       borderRadius: "12px",
       padding: "2rem",
       background: "var(--bg-secondary)"
-    } }, /* @__PURE__ */ import_react3.default.createElement("div", { style: { display: "flex", alignItems: "start", gap: "1.5rem" } }, /* @__PURE__ */ import_react3.default.createElement("div", { style: { fontSize: "3rem" } }, "\u{1F465}"), /* @__PURE__ */ import_react3.default.createElement("div", { style: { flex: 1 } }, /* @__PURE__ */ import_react3.default.createElement("h2", { style: { margin: "0 0 0.5rem 0", color: "#007bff" } }, "Employee Management System"), /* @__PURE__ */ import_react3.default.createElement("p", { style: {
+    } }, /* @__PURE__ */ import_react3.default.createElement("div", { style: { display: "flex", alignItems: "start", gap: "1.5rem" } }, /* @__PURE__ */ import_react3.default.createElement("div", { style: { fontSize: "3rem" } }, "\u{1F465}"), /* @__PURE__ */ import_react3.default.createElement("div", { style: { flex: 1 } }, /* @__PURE__ */ import_react3.default.createElement("h2", { style: { margin: "0 0 0.5rem 0", color: "#007bff" } }, "Course Management System"), /* @__PURE__ */ import_react3.default.createElement("p", { style: {
       color: "var(--text-secondary)",
       lineHeight: 1.6,
       marginBottom: "1rem"
-    } }, "Full-featured CRUD application for managing employees, projects, offices, and office managers. Includes advanced search functionality, relationship management, and data validation."), /* @__PURE__ */ import_react3.default.createElement("div", { style: {
+    } }, "Full-featured CRUD application for managing courses, sections, students, and prefixes with rich relationships. Includes advanced search functionality, relationship management, and data validation."), /* @__PURE__ */ import_react3.default.createElement("div", { style: {
       background: "var(--bg-primary)",
       padding: "1rem",
       borderRadius: "6px",
       marginBottom: "1rem",
       border: "1px solid var(--border-color)"
-    } }, /* @__PURE__ */ import_react3.default.createElement("strong", { style: { color: "var(--text-primary)" } }, "Technologies:"), " ", /* @__PURE__ */ import_react3.default.createElement("span", { style: { color: "var(--text-secondary)" } }, "Ruby on Rails 8, SQLite, Turbo, Stimulus, RESTful API")), /* @__PURE__ */ import_react3.default.createElement("a", { href: "/employees", style: {
+    } }, /* @__PURE__ */ import_react3.default.createElement("strong", { style: { color: "var(--text-primary)" } }, "Technologies:"), " ", /* @__PURE__ */ import_react3.default.createElement("span", { style: { color: "var(--text-secondary)" } }, "Ruby on Rails 8, SQLite, Turbo, Stimulus, RESTful API")), /* @__PURE__ */ import_react3.default.createElement("a", { href: "/courses", style: {
       display: "inline-block",
       padding: "0.75rem 2rem",
       background: "#007bff",
@@ -25741,7 +25737,7 @@
       borderRadius: "6px",
       fontWeight: "bold",
       transition: "background 0.3s"
-    } }, "Launch Employee Demo \u2192")))), /* @__PURE__ */ import_react3.default.createElement("div", { style: {
+    } }, "Launch Course Demo \u2192")))), /* @__PURE__ */ import_react3.default.createElement("div", { style: {
       border: "2px solid var(--border-color)",
       borderRadius: "12px",
       padding: "2rem",
@@ -25771,9 +25767,17 @@
     const [predictions, setPredictions] = (0, import_react4.useState)(null);
     const [loading, setLoading] = (0, import_react4.useState)(false);
     const [error, setError] = (0, import_react4.useState)(null);
+    import_react4.default.useEffect(() => {
+      console.log("Predictions state updated:", predictions);
+    }, [predictions]);
+    import_react4.default.useEffect(() => {
+      if (error)
+        console.error("Prediction error:", error);
+    }, [error]);
     const handlePredict = async () => {
       setLoading(true);
       setError(null);
+      console.log("Sending fetch to /api/f1_predictions/predict...");
       try {
         const response = await fetch("/api/f1_predictions/predict", {
           method: "POST",
@@ -25782,13 +25786,18 @@
             "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')?.content || ""
           }
         });
+        console.log("Fetch response:", response);
         if (!response.ok) {
-          throw new Error("Failed to fetch predictions");
+          const text = await response.text();
+          console.error("Non-OK response:", response.status, text);
+          throw new Error("Failed to fetch predictions: " + response.status);
         }
         const data = await response.json();
+        console.log("Fetched predictions data:", data);
         setPredictions(data);
       } catch (err) {
         setError(err.message);
+        console.error("Fetch error:", err);
       } finally {
         setLoading(false);
       }
@@ -26070,7 +26079,7 @@
       gap: "1.5rem",
       padding: 0,
       margin: 0
-    } }, /* @__PURE__ */ import_react5.default.createElement("li", null, /* @__PURE__ */ import_react5.default.createElement(Link, { to: "/", style: { textDecoration: "none", fontWeight: 500, color: "var(--link-color)" } }, "Home")), /* @__PURE__ */ import_react5.default.createElement("li", null, /* @__PURE__ */ import_react5.default.createElement(Link, { to: "/demos", style: { textDecoration: "none", fontWeight: 500, color: "var(--link-color)" } }, "Demos")), /* @__PURE__ */ import_react5.default.createElement("li", null, /* @__PURE__ */ import_react5.default.createElement("a", { href: "/employees", style: { textDecoration: "none", fontWeight: 500, color: "var(--link-color)" } }, "Employees")))), /* @__PURE__ */ import_react5.default.createElement("div", { className: "theme-switcher", style: { display: "flex", gap: "0.5rem", alignItems: "center" } }, /* @__PURE__ */ import_react5.default.createElement("span", { style: { fontSize: "0.9rem", color: "var(--text-secondary)" } }, "Theme:"), /* @__PURE__ */ import_react5.default.createElement(
+    } }, /* @__PURE__ */ import_react5.default.createElement("li", null, /* @__PURE__ */ import_react5.default.createElement(Link, { to: "/", style: { textDecoration: "none", fontWeight: 500, color: "var(--link-color)" } }, "Home")), /* @__PURE__ */ import_react5.default.createElement("li", null, /* @__PURE__ */ import_react5.default.createElement(Link, { to: "/demos", style: { textDecoration: "none", fontWeight: 500, color: "var(--link-color)" } }, "Demos")))), /* @__PURE__ */ import_react5.default.createElement("div", { className: "theme-switcher", style: { display: "flex", gap: "0.5rem", alignItems: "center" } }, /* @__PURE__ */ import_react5.default.createElement("span", { style: { fontSize: "0.9rem", color: "var(--text-secondary)" } }, "Theme:"), /* @__PURE__ */ import_react5.default.createElement(
       "button",
       {
         className: `theme-btn ${theme === "light" ? "active" : ""}`,
@@ -26108,11 +26117,18 @@
   var App_default = App;
 
   // app/javascript/application.js
+  console.log("JavaScript loaded");
   document.addEventListener("DOMContentLoaded", () => {
+    console.log("DOM loaded");
     const rootElement = document.getElementById("root");
+    console.log("Root element:", rootElement);
     if (rootElement) {
+      console.log("Creating React root");
       const root = (0, import_client.createRoot)(rootElement);
       root.render(/* @__PURE__ */ import_react6.default.createElement(App_default, null));
+      console.log("React app rendered");
+    } else {
+      console.error("Root element not found!");
     }
   });
 })();

@@ -120,15 +120,11 @@ function Home() {
             <h3 style={{ marginTop: 0, color: 'var(--text-primary)' }}>Course Management System</h3>
             <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6 }}>
               Full-stack Rails application with CRUD operations, search functionality, and relationship management 
-              for courses, sections, students, and prefixes.
+              for sections, students, and prefixes.
             </p>
-            <a href="/courses" style={{
-              color: 'var(--link-color)',
-              textDecoration: 'none',
-              fontWeight: 'bold'
-            }}>
-              View System →
-            </a>
+            <p style={{ color: 'var(--text-secondary)', fontStyle: 'italic' }}>
+              Course management available in demonstration mode only.
+            </p>
           </div>
           
           <div style={{

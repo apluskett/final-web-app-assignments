@@ -1,9 +1,14 @@
 class Prefix < ApplicationRecord
   has_many :courses, dependent: :destroy
   
-  validates :name, presence: true, uniqueness: true
+  validates :code, presence: true, uniqueness: true
+  validates :description, presence: true
   
   def to_s
-    name
+    "#{code} - #{description}"
+  end
+  
+  def display_name
+    "#{code} - #{description}"
   end
 end

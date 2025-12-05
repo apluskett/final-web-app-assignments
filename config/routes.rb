@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
   # Serve React app for portfolio routes
   root to: proc { [200, {'Content-Type' => 'text/html'}, [File.read(Rails.root.join('public/react.html'))]] }
-  get "demos", to: proc { [200, {'Content-Type' => 'text/html'}, [File.read(Rails.root.join('public/react.html'))]] }
-  get "f1_predictions", to: proc { [200, {'Content-Type' => 'text/html'}, [File.read(Rails.root.join('public/react.html'))]] }
+  get "demos", to: "pages#demos"
+  get "f1_predictions", to: "pages#f1_predictions"
+  post "predict_races", to: "pages#predict_races"
   
   # API endpoints for React app
   namespace :api do
