@@ -1,28 +1,33 @@
 john_doe:
+  name: "John Doe"
   first_name: John
   last_name: Doe
   student_id: S001234567
   email: john.doe@student.example.com
 
 jane_smith:
+  name: "Jane Smith"
   first_name: Jane
   last_name: Smith
   student_id: S001234568
   email: jane.smith@student.example.com
 
 bob_johnson:
+  name: "Bob Johnson"
   first_name: Bob
   last_name: Johnson
   student_id: S001234569
   email: bob.johnson@student.example.com
 
 alice_williams:
+  name: "Alice Williams"
   first_name: Alice
   last_name: Williams
   student_id: S001234570
   email: alice.williams@student.example.com
 
 charlie_brown:
+  name: "Charlie Brown"
   first_name: Charlie
   last_name: Brown
   student_id: S001234571

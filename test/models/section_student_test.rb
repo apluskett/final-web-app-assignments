@@ -2,15 +2,15 @@ require "test_helper"
 
 class SectionStudentTest < ActiveSupport::TestCase
   test "should create section student relationship" do
-    section = sections(:intro_morning)
-    student = students(:john_doe)
+    section = sections(:calculus_section_b)
+    student = students(:john_doe)  # john_doe is not enrolled in calculus_section_b
     
     section_student = SectionStudent.new(section: section, student: student)
     assert section_student.save
   end
 
   test "should enforce uniqueness of section and student combination" do
-    section = sections(:intro_morning)
+    section = sections(:calculus_section_b)
     student = students(:john_doe)
     
     # Create first relationship
@@ -19,13 +19,13 @@ class SectionStudentTest < ActiveSupport::TestCase
     # Attempt to create duplicate
     duplicate = SectionStudent.new(section: section, student: student)
     assert_not duplicate.save
-    assert_includes duplicate.errors[:student_id], "has already been taken"
+    assert_includes duplicate.errors[:section_id], "has already been taken"
   end
 
   test "should belong to section and student" do
     section_student = SectionStudent.new(
-      section: sections(:intro_morning),
-      student: students(:john_doe)
+      section: sections(:calculus_section_b),
+      student: students(:bob_johnson)
     )
     
     assert_respond_to section_student, :section
@@ -42,20 +42,18 @@ class SectionStudentTest < ActiveSupport::TestCase
 
   test "should allow same student in different sections" do
     student = students(:john_doe)
-    section1 = sections(:intro_morning)
+    # john_doe is already in intro_morning from fixtures
     section2 = Section.create!(
       course: courses(:advanced_programming),
-      name: "Evening Section"
+      name: "Test Evening Section"
     )
-    
-    SectionStudent.create!(section: section1, student: student)
     
     second_enrollment = SectionStudent.new(section: section2, student: student)
     assert second_enrollment.save
   end
 
   test "should allow same section with different students" do
-    section = sections(:intro_morning)
+    section = sections(:calculus_section_b)
     student1 = students(:john_doe)
     student2 = students(:jane_smith)
     

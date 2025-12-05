@@ -28,8 +28,8 @@ class StudentsControllerTest < ActionDispatch::IntegrationTest
     get student_url(@student)
     assert_response :success
     assert_select "h1", "#{@student.first_name} #{@student.last_name}"
-    assert_text @student.student_id
-    assert_text @student.email
+    assert response.body.include?(@student.student_id)
+    assert response.body.include?(@student.email)
   end
 
   test "should get new" do
@@ -93,11 +93,10 @@ class StudentsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should destroy student and remove section enrollments" do
-    section = sections(:intro_morning)
-    @student.sections << section
-    assert_equal 1, @student.sections.count
+    # @student already has enrollments from fixtures
+    initial_enrollments = @student.section_students.count
     
-    assert_difference("SectionStudent.count", -1) do
+    assert_difference("SectionStudent.count", -initial_enrollments) do
       assert_difference("Student.count", -1) do
         delete student_url(@student)
       end
@@ -136,20 +135,19 @@ class StudentsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should handle non-existent student" do
-    assert_raises(ActiveRecord::RecordNotFound) do
-      get student_url(999999)
-    end
+    get student_url(999999)
+    assert_response :not_found
   end
 
   test "should display student enrollments on show page" do
-    section = sections(:intro_morning)
-    @student.sections << section
+    # @student already has enrollments from fixtures
+    section = @student.sections.first
     
     get student_url(@student)
     assert_response :success
     assert_select "a[href=?]", section_path(section)
     # Should show total credit hours
-    assert_text "Total Credit Hours"
+    assert response.body.include?("Total Credit Hours")
   end
 
   test "should show enrollment suggestions for unenrolled students" do
@@ -163,7 +161,7 @@ class StudentsControllerTest < ActionDispatch::IntegrationTest
     
     get student_url(unenrolled_student)
     assert_response :success
-    assert_text "not enrolled in any sections"
+    assert response.body.include?("not enrolled in any sections")
   end
 
   test "should validate uniqueness of student_id in create" do

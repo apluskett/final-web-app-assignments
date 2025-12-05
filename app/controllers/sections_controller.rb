@@ -3,10 +3,20 @@ class SectionsController < ApplicationController
 
   def index
     @sections = Section.includes(:course => :prefix).all
+    
+    respond_to do |format|
+      format.html
+      format.json
+    end
   end
 
   def show
     @available_students = Student.where.not(id: @section.student_ids)
+    
+    respond_to do |format|
+      format.html
+      format.json
+    end
   end
 
   def new
@@ -24,6 +34,7 @@ class SectionsController < ApplicationController
   def create
     @section = Section.new(section_params)
     @courses = Course.includes(:prefix).all
+    @students = Student.all
 
     respond_to do |format|
       if @section.save
@@ -36,7 +47,7 @@ class SectionsController < ApplicationController
         format.html { redirect_to @section, notice: 'Section was successfully created.' }
         format.json { render :show, status: :created, location: @section }
       else
-        format.html { render :new }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @section.errors, status: :unprocessable_entity }
       end
     end
@@ -44,7 +55,10 @@ class SectionsController < ApplicationController
 
   def update
     @courses = Course.includes(:prefix).all
+    @students = Student.all
     @available_students = Student.where.not(id: @section.student_ids)
+    # Ensure course association is loaded for edit view
+    @section.course.reload if @section.course
     
     respond_to do |format|
       if @section.update(section_params)
@@ -59,7 +73,7 @@ class SectionsController < ApplicationController
         format.html { redirect_to @section, notice: 'Section was successfully updated.' }
         format.json { render :show, status: :ok, location: @section }
       else
-        format.html { render :edit }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @section.errors, status: :unprocessable_entity }
       end
     end

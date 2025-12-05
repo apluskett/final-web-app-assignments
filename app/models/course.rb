@@ -5,7 +5,7 @@ class Course < ApplicationRecord
   
   validates :title, presence: true
   validates :number, presence: true, uniqueness: { scope: :prefix_id }
-  validates :credit_hours, presence: true, numericality: { greater_than: 0 }
+  validates :credit_hours, presence: true, numericality: { greater_than: 0, less_than_or_equal_to: 6 }
   validates :prefix_id, presence: true
   
   def full_name

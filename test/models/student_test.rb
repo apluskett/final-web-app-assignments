@@ -13,10 +13,10 @@ class StudentTest < ActiveSupport::TestCase
 
   test "should save valid student" do
     student = Student.new(
-      first_name: "John",
-      last_name: "Doe",
-      student_id: "S001234567",
-      email: "john.doe@example.com"
+      first_name: "Test",
+      last_name: "User",
+      student_id: "S999999999",
+      email: "test.user@example.com"
     )
     assert student.save
   end
@@ -24,16 +24,16 @@ class StudentTest < ActiveSupport::TestCase
   test "should enforce uniqueness of student_id" do
     Student.create!(
       first_name: "John",
-      last_name: "Doe",
-      student_id: "S001234567",
-      email: "john@example.com"
+      last_name: "Test",
+      student_id: "S888888888",
+      email: "john.test@example.com"
     )
     
     duplicate_student = Student.new(
       first_name: "Jane",
       last_name: "Smith",
-      student_id: "S001234567",
-      email: "jane@example.com"
+      student_id: "S888888888",
+      email: "jane.smith@example.com"
     )
     
     assert_not duplicate_student.save
@@ -43,16 +43,16 @@ class StudentTest < ActiveSupport::TestCase
   test "should enforce uniqueness of email" do
     Student.create!(
       first_name: "John",
-      last_name: "Doe",
-      student_id: "S001234567",
-      email: "john@example.com"
+      last_name: "Unique",
+      student_id: "S777777777",
+      email: "unique@example.com"
     )
     
     duplicate_email_student = Student.new(
       first_name: "Jane",
       last_name: "Smith",
-      student_id: "S987654321",
-      email: "john@example.com"
+      student_id: "S666666666",
+      email: "unique@example.com"
     )
     
     assert_not duplicate_email_student.save
@@ -61,16 +61,16 @@ class StudentTest < ActiveSupport::TestCase
 
   test "should validate email format" do
     student = Student.new(
-      first_name: "John",
-      last_name: "Doe",
-      student_id: "S001234567",
+      first_name: "Email",
+      last_name: "Test",
+      student_id: "S555555555",
       email: "invalid-email"
     )
     
     assert_not student.save
     assert_includes student.errors[:email], "is invalid"
     
-    student.email = "valid@example.com"
+    student.email = "valid.email@example.com"
     assert student.save
   end
 
@@ -88,7 +88,7 @@ class StudentTest < ActiveSupport::TestCase
 
   test "should be able to enroll in sections" do
     student = students(:john_doe)
-    section = sections(:intro_morning)
+    section = sections(:advanced_morning)  # john_doe is not enrolled in this one
     
     assert_difference('student.sections.count', 1) do
       student.sections << section
@@ -97,6 +97,9 @@ class StudentTest < ActiveSupport::TestCase
 
   test "should calculate total credit hours" do
     student = students(:john_doe)
+    # Clear existing enrollments first
+    student.sections.clear
+    
     course1 = courses(:intro_programming) # 3 credit hours
     course2 = Course.create!(
       prefix: prefixes(:mathematics),
@@ -105,8 +108,8 @@ class StudentTest < ActiveSupport::TestCase
       credit_hours: 4
     )
     
-    section1 = Section.create!(course: course1, name: "Section A")
-    section2 = Section.create!(course: course2, name: "Section B")
+    section1 = Section.create!(course: course1, name: "Test Section A")
+    section2 = Section.create!(course: course2, name: "Test Section B")
     
     student.sections << [section1, section2]
     
@@ -115,11 +118,10 @@ class StudentTest < ActiveSupport::TestCase
   end
 
   test "destroying student should remove section enrollments" do
-    student = students(:john_doe)
-    section = sections(:intro_morning)
-    student.sections << section
+    student = students(:bob_johnson)  # Use a different student
+    initial_count = student.section_students.count
     
-    assert_difference('SectionStudent.count', -1) do
+    assert_difference('SectionStudent.count', -initial_count) do
       student.destroy!
     end
   end

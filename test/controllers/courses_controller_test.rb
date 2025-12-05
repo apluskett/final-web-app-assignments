@@ -6,10 +6,17 @@ class CoursesControllerTest < ActionDispatch::IntegrationTest
     @prefix = prefixes(:computer_science)
     @valid_attributes = {
       prefix_id: @prefix.id,
-      number: "201",
+      number: "991",
       title: "Data Structures",
       credit_hours: 3,
-      syllabus: "This course covers data structures and algorithms."
+      syllabus: "<h2>Course Description</h2><p>This course covers <strong>data structures</strong> and <em>algorithms</em>.</p><ul><li>Arrays and Lists</li><li>Trees and Graphs</li></ul>"
+    }
+    @rich_text_attributes = {
+      prefix_id: @prefix.id,
+      number: "990",
+      title: "Web Development",
+      credit_hours: 4,
+      syllabus: "<h3>Learning Outcomes</h3><p>Students will learn:</p><ol><li>HTML5 and CSS3</li><li>JavaScript fundamentals</li><li>React framework</li></ol>"
     }
     @invalid_attributes = {
       prefix_id: nil,
@@ -45,9 +52,32 @@ class CoursesControllerTest < ActionDispatch::IntegrationTest
       post courses_url, params: { course: @valid_attributes }
     end
 
-    course = Course.find_by(number: "201")
+    course = Course.find_by(number: "991")
     assert_redirected_to course_path(course)
     assert_equal "Course was successfully created.", flash[:notice]
+  end
+
+  test "should create course with rich text syllabus" do
+    assert_difference("Course.count") do
+      post courses_url, params: { course: @rich_text_attributes }
+    end
+
+    course = Course.find_by(number: "990")
+    assert_redirected_to course_path(course)
+    assert_includes course.syllabus.to_s, "Learning Outcomes"
+    assert_includes course.syllabus.to_s, "HTML5 and CSS3"
+  end
+
+  test "should handle empty syllabus" do
+    attributes_without_syllabus = @valid_attributes.except(:syllabus)
+    attributes_without_syllabus[:number] = "989"
+    
+    assert_difference("Course.count") do
+      post courses_url, params: { course: attributes_without_syllabus }
+    end
+
+    course = Course.find_by(number: "989")
+    assert course.syllabus.blank?
   end
 
   test "should not create course with invalid attributes" do
@@ -73,6 +103,16 @@ class CoursesControllerTest < ActionDispatch::IntegrationTest
     
     @course.reload
     assert_equal "Updated Title", @course.title
+  end
+
+  test "should update course syllabus with rich text" do
+    new_syllabus = "<h2>Updated Syllabus</h2><p>This is the <strong>updated</strong> course content.</p>"
+    patch course_url(@course), params: { course: { syllabus: new_syllabus } }
+    assert_redirected_to course_path(@course)
+    
+    @course.reload
+    assert_includes @course.syllabus.to_s, "Updated Syllabus"
+    assert_includes @course.syllabus.to_s, "updated"
   end
 
   test "should not update course with invalid attributes" do
@@ -115,13 +155,12 @@ class CoursesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :created
     json_response = JSON.parse(response.body)
-    assert_equal "201", json_response['number']
+    assert_equal "991", json_response['number']
   end
 
   test "should handle non-existent course" do
-    assert_raises(ActiveRecord::RecordNotFound) do
-      get course_url(999999)
-    end
+    get course_url(999999)
+    assert_response :not_found
   end
 
   test "should display course sections on show page" do

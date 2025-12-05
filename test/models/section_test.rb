@@ -54,8 +54,8 @@ class SectionTest < ActiveSupport::TestCase
   end
 
   test "should be able to enroll students" do
-    section = sections(:intro_morning)
-    student = students(:john_doe)
+    section = sections(:calculus_section_b)
+    student = students(:john_doe)  # john_doe not in calculus_section_b
     
     assert_difference('section.students.count', 1) do
       section.students << student
@@ -63,7 +63,7 @@ class SectionTest < ActiveSupport::TestCase
   end
 
   test "should prevent duplicate student enrollment in same section" do
-    section = sections(:intro_morning)
+    section = sections(:calculus_section_b)
     student = students(:john_doe)
     
     section.students << student
@@ -80,10 +80,10 @@ class SectionTest < ActiveSupport::TestCase
 
   test "destroying section should remove student enrollments" do
     section = sections(:intro_morning)
-    student = students(:john_doe)
-    section.students << student
+    # Section already has enrollments from fixtures
+    initial_enrollment_count = section.section_students.count
     
-    assert_difference('SectionStudent.count', -1) do
+    assert_difference('SectionStudent.count', -initial_enrollment_count) do
       section.destroy!
     end
   end

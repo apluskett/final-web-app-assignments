@@ -1,0 +1,58 @@
+# ActionText fixtures for course syllabi
+intro_programming_syllabus:
+  record: intro_programming (Course)
+  name: syllabus
+  body: |
+    <h2>Course Overview</h2>
+    <p>This course introduces students to <strong>programming concepts</strong> using Python.</p>
+    
+    <h3>Topics Covered</h3>
+    <ul>
+      <li>Variables and data types</li>
+      <li>Control structures (if/else, loops)</li>
+      <li>Functions and parameters</li>
+      <li>Basic data structures (lists, dictionaries)</li>
+    </ul>
+    
+    <h3>Learning Objectives</h3>
+    <p>By the end of this course, students will be able to:</p>
+    <ol>
+      <li>Write basic Python programs</li>
+      <li>Use fundamental programming constructs</li>
+      <li>Debug and test their code</li>
+    </ol>
+
+advanced_programming_syllabus:
+  record: advanced_programming (Course)
+  name: syllabus
+  body: |
+    <h2>Advanced Programming Concepts</h2>
+    <p>This course covers <em>advanced programming topics</em> including:</p>
+    
+    <h3>Core Topics</h3>
+    <ul>
+      <li><strong>Object-Oriented Programming</strong>
+        <ul>
+          <li>Classes and objects</li>
+          <li>Inheritance and polymorphism</li>
+          <li>Encapsulation and abstraction</li>
+        </ul>
+      </li>
+      <li><strong>Data Structures</strong>
+        <ul>
+          <li>Linked lists</li>
+          <li>Stacks and queues</li>
+          <li>Trees and graphs</li>
+        </ul>
+      </li>
+      <li><strong>Algorithms</strong>
+        <ul>
+          <li>Sorting algorithms</li>
+          <li>Search algorithms</li>
+          <li>Big O notation</li>
+        </ul>
+      </li>
+    </ul>
+    
+    <h3>Prerequisites</h3>
+    <p>Students must have completed <em>Introduction to Programming</em> (CSCI 101) or equivalent.</p>

@@ -18,19 +18,56 @@ class CourseTest < ActiveSupport::TestCase
   test "should save valid course" do
     course = Course.new(
       prefix: @prefix,
-      number: "101",
+      number: "999",
       title: "Introduction to Programming",
       credit_hours: 3
     )
     assert course.save
   end
 
+  test "should save course with rich text syllabus" do
+    course = Course.new(
+      prefix: @prefix,
+      number: "998",
+      title: "Advanced Programming",
+      credit_hours: 4
+    )
+    course.syllabus = "<h2>Course Overview</h2><p>This course covers <strong>advanced programming concepts</strong>.</p>"
+    assert course.save
+    assert course.syllabus.present?
+  end
+
+  test "should handle empty syllabus" do
+    course = Course.new(
+      prefix: @prefix,
+      number: "997",
+      title: "Programming Basics",
+      credit_hours: 2
+    )
+    assert course.save
+    assert course.syllabus.blank?
+  end
+
+  test "should persist rich text syllabus" do
+    course = Course.create!(
+      prefix: @prefix,
+      number: "996",
+      title: "Web Development",
+      credit_hours: 3,
+      syllabus: "<h3>Learning Objectives</h3><ul><li>HTML/CSS</li><li>JavaScript</li></ul>"
+    )
+    
+    saved_course = Course.find(course.id)
+    assert_includes saved_course.syllabus.to_s, "Learning Objectives"
+    assert_includes saved_course.syllabus.to_s, "HTML/CSS"
+  end
+
   test "should enforce uniqueness of prefix and number combination" do
-    Course.create!(prefix: @prefix, number: "101", title: "Intro 1", credit_hours: 3)
+    Course.create!(prefix: @prefix, number: "995", title: "Intro 1", credit_hours: 3)
     
     duplicate_course = Course.new(
       prefix: @prefix,
-      number: "101", 
+      number: "995", 
       title: "Intro 2",
       credit_hours: 4
     )
@@ -40,12 +77,12 @@ class CourseTest < ActiveSupport::TestCase
   end
 
   test "should allow same number for different prefixes" do
-    math_prefix = Prefix.create!(code: "MATH", description: "Mathematics")
+    math_prefix = Prefix.create!(code: "MTH", description: "Mathematics Two")
     
-    Course.create!(prefix: @prefix, number: "101", title: "CS Intro", credit_hours: 3)
+    Course.create!(prefix: @prefix, number: "994", title: "CS Intro", credit_hours: 3)
     duplicate_number_course = Course.new(
       prefix: math_prefix,
-      number: "101",
+      number: "994",
       title: "Math Intro",
       credit_hours: 3
     )
@@ -56,7 +93,7 @@ class CourseTest < ActiveSupport::TestCase
   test "should validate credit hours range" do
     course = Course.new(
       prefix: @prefix,
-      number: "101",
+      number: "993",
       title: "Test Course",
       credit_hours: 0
     )
@@ -75,12 +112,12 @@ class CourseTest < ActiveSupport::TestCase
   test "display_name should combine prefix code, number, and title" do
     course = Course.new(
       prefix: @prefix,
-      number: "101",
+      number: "992",
       title: "Introduction to Programming",
       credit_hours: 3
     )
     
-    expected = "CS 101 - Introduction to Programming"
+    expected = "CS 992 - Introduction to Programming"
     assert_equal expected, course.display_name
   end
 
@@ -98,9 +135,10 @@ class CourseTest < ActiveSupport::TestCase
 
   test "destroying course should destroy associated sections" do
     course = courses(:intro_programming)
-    section = Section.create!(course: course, name: "Section 001")
+    initial_section_count = course.sections.count
+    section = Section.create!(course: course, name: "Test Section 001")
     
-    assert_difference('Section.count', -1) do
+    assert_difference('Section.count', -(initial_section_count + 1)) do
       course.destroy!
     end
   end

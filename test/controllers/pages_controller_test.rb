@@ -7,7 +7,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get demos" do
-    get pages_demos_url
+    get demos_url
     assert_response :success
   end
 

@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
   # Serve React app for portfolio routes
   root to: proc { [200, {'Content-Type' => 'text/html'}, [File.read(Rails.root.join('public/react.html'))]] }
+  
+  # Pages routes  
+  get "home", to: "pages#home", as: :pages_home
   get "demos", to: "pages#demos"
-  get "f1_predictions", to: "pages#f1_predictions"
+  get "f1_predictions", to: "pages#f1_predictions", as: :pages_f1_predictions
   post "predict_races", to: "pages#predict_races"
   
   # API endpoints for React app
@@ -15,6 +18,10 @@ Rails.application.routes.draw do
   resources :courses
   resources :sections
   resources :students
+  resources :projects
+  resources :offices
+  resources :office_managers
+  resources :employees
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

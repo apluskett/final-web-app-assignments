@@ -3,14 +3,12 @@ intro_programming:
   number: "101"
   title: Introduction to Programming
   credit_hours: 3
-  syllabus: "This course introduces students to programming concepts using Python. Topics include variables, control structures, functions, and basic data structures."
 
 advanced_programming:
   prefix: computer_science
   number: "201"
   title: Advanced Programming
   credit_hours: 4
-  syllabus: "Advanced programming topics including object-oriented programming, data structures, and algorithms."
 
 calculus_one:
   prefix: mathematics

@@ -3,10 +3,20 @@ class StudentsController < ApplicationController
 
   def index
     @students = Student.includes(:sections => {:course => :prefix}).all
+    
+    respond_to do |format|
+      format.html
+      format.json
+    end
   end
 
   def show
     @available_sections = Section.includes(:course => :prefix).where.not(id: @student.section_ids)
+    
+    respond_to do |format|
+      format.html
+      format.json
+    end
   end
 
   def new
@@ -34,7 +44,7 @@ class StudentsController < ApplicationController
         format.html { redirect_to @student, notice: 'Student was successfully created.' }
         format.json { render :show, status: :created, location: @student }
       else
-        format.html { render :new }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @student.errors, status: :unprocessable_entity }
       end
     end
@@ -57,7 +67,7 @@ class StudentsController < ApplicationController
         format.html { redirect_to @student, notice: 'Student was successfully updated.' }
         format.json { render :show, status: :ok, location: @student }
       else
-        format.html { render :edit }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @student.errors, status: :unprocessable_entity }
       end
     end

@@ -3,7 +3,7 @@
 <div class="max-w-2xl mx-auto p-6">
   <div class="bg-white rounded-lg shadow-md p-8">
     <h1 class="text-2xl font-bold text-gray-900 mb-6">
-      Edit Section: <%= @section.course.prefix.code %> <%= @section.course.number %> - <%= @section.name %>
+      Edit Section: <%= @section.course&.prefix&.code || 'N/A' %> <%= @section.course&.number || 'N/A' %> - <%= @section.name %>
     </h1>
 
     <%= form_with(model: @section, local: true, class: "space-y-6") do |form| %>

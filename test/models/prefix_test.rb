@@ -14,21 +14,21 @@ class PrefixTest < ActiveSupport::TestCase
   end
 
   test "should save valid prefix" do
-    prefix = Prefix.new(code: "CS", description: "Computer Science")
+    prefix = Prefix.new(code: "TEST", description: "Test Prefix")
     assert prefix.save
   end
 
   test "should enforce uniqueness of code" do
-    Prefix.create!(code: "CS", description: "Computer Science")
-    duplicate_prefix = Prefix.new(code: "CS", description: "Computer Studies")
+    Prefix.create!(code: "UNIQ", description: "Unique Prefix")
+    duplicate_prefix = Prefix.new(code: "UNIQ", description: "Unique Studies")
     
     assert_not duplicate_prefix.save
     assert_includes duplicate_prefix.errors[:code], "has already been taken"
   end
 
   test "should convert code to uppercase" do
-    prefix = Prefix.create!(code: "cs", description: "Computer Science")
-    assert_equal "CS", prefix.code
+    prefix = Prefix.create!(code: "abc", description: "Lowercase Test")
+    assert_equal "ABC", prefix.code
   end
 
   test "should validate code format" do
@@ -36,7 +36,7 @@ class PrefixTest < ActiveSupport::TestCase
     assert_not invalid_prefix.save
     assert_includes invalid_prefix.errors[:code], "must be 2-4 letters only"
 
-    valid_prefix = Prefix.new(code: "MATH", description: "Mathematics")
+    valid_prefix = Prefix.new(code: "BIOL", description: "Biology")
     assert valid_prefix.save
   end
 
@@ -53,9 +53,9 @@ class PrefixTest < ActiveSupport::TestCase
 
   test "destroying prefix with courses should raise error" do
     prefix = prefixes(:computer_science)
-    Course.create!(prefix: prefix, number: "101", title: "Intro", credit_hours: 3)
+    # Prefix already has courses from fixtures
     
-    assert_raises ActiveRecord::DeleteRestrictionError do
+    assert_raises ActiveRecord::RecordNotDestroyed do
       prefix.destroy!
     end
   end

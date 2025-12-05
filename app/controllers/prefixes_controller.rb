@@ -20,10 +20,10 @@ class PrefixesController < ApplicationController
 
     respond_to do |format|
       if @prefix.save
-        format.html { redirect_to @prefix, notice: 'Prefix was successfully created.' }
+        format.html { redirect_to prefixes_path, notice: 'Prefix was successfully created.' }
         format.json { render :show, status: :created, location: @prefix }
       else
-        format.html { render :new }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @prefix.errors, status: :unprocessable_entity }
       end
     end
@@ -32,20 +32,27 @@ class PrefixesController < ApplicationController
   def update
     respond_to do |format|
       if @prefix.update(prefix_params)
-        format.html { redirect_to @prefix, notice: 'Prefix was successfully updated.' }
+        format.html { redirect_to prefixes_path, notice: 'Prefix was successfully updated.' }
         format.json { render :show, status: :ok, location: @prefix }
       else
-        format.html { render :edit }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @prefix.errors, status: :unprocessable_entity }
       end
     end
   end
 
   def destroy
-    @prefix.destroy
-    respond_to do |format|
-      format.html { redirect_to prefixes_url, notice: 'Prefix was successfully deleted.' }
-      format.json { head :no_content }
+    begin
+      @prefix.destroy!
+      respond_to do |format|
+        format.html { redirect_to prefixes_url, notice: 'Prefix was successfully deleted.' }
+        format.json { head :no_content }
+      end
+    rescue ActiveRecord::RecordNotDestroyed => e
+      respond_to do |format|
+        format.html { redirect_to prefixes_url, alert: 'Cannot delete prefix because it has associated courses.' }
+        format.json { render json: { error: e.message }, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -56,6 +63,6 @@ class PrefixesController < ApplicationController
   end
 
   def prefix_params
-    params.require(:prefix).permit(:name)
+    params.require(:prefix).permit(:code, :description)
   end
 end

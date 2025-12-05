@@ -3,9 +3,18 @@ class CoursesController < ApplicationController
 
   def index
     @courses = Course.includes(:prefix).all
+    
+    respond_to do |format|
+      format.html
+      format.json
+    end
   end
 
   def show
+    respond_to do |format|
+      format.html
+      format.json
+    end
   end
 
   def new
@@ -26,7 +35,7 @@ class CoursesController < ApplicationController
         format.html { redirect_to @course, notice: 'Course was successfully created.' }
         format.json { render :show, status: :created, location: @course }
       else
-        format.html { render :new }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @course.errors, status: :unprocessable_entity }
       end
     end
@@ -34,13 +43,15 @@ class CoursesController < ApplicationController
 
   def update
     @prefixes = Prefix.all
+    # Ensure prefix association is loaded for edit view
+    @course.prefix.reload if @course.prefix
     
     respond_to do |format|
       if @course.update(course_params)
         format.html { redirect_to @course, notice: 'Course was successfully updated.' }
         format.json { render :show, status: :ok, location: @course }
       else
-        format.html { render :edit }
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @course.errors, status: :unprocessable_entity }
       end
     end
@@ -61,6 +72,6 @@ class CoursesController < ApplicationController
   end
 
   def course_params
-    params.require(:course).permit(:prefix_id, :number, :syllabus)
+    params.require(:course).permit(:prefix_id, :number, :title, :credit_hours, :syllabus)
   end
 end

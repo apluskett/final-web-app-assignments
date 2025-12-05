@@ -4,8 +4,8 @@ class PrefixesControllerTest < ActionDispatch::IntegrationTest
   setup do
     @prefix = prefixes(:computer_science)
     @valid_attributes = {
-      code: "MATH",
-      description: "Mathematics"
+      code: "BIO",
+      description: "Biology"
     }
     @invalid_attributes = {
       code: "",
@@ -91,15 +91,16 @@ class PrefixesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should handle non-existent prefix" do
-    assert_raises(ActiveRecord::RecordNotFound) do
-      get prefix_url(999999)
-    end
+    get prefix_url(999999)
+    assert_response :not_found
   end
 
   test "should convert code to uppercase in params" do
-    post prefixes_url, params: { prefix: { code: "eng", description: "English" } }
+    post prefixes_url, params: { prefix: { code: "eng", description: "English Language" } }
+    assert_response :redirect
     
-    prefix = Prefix.find_by(description: "English")
+    prefix = Prefix.find_by(description: "English Language")
+    assert_not_nil prefix, "Prefix should have been created"
     assert_equal "ENG", prefix.code
   end
 end

@@ -86,17 +86,18 @@ class SectionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update section student enrollments" do
-    # Initial setup - no students enrolled
-    assert_equal 0, @section.students.count
+    # Use a section without students enrolled
+    empty_section = sections(:intro_evening)
+    assert_equal 0, empty_section.students.count
     
     # Add students
     student_ids = [students(:john_doe).id, students(:jane_smith).id]
-    patch section_url(@section), params: { 
-      section: { name: @section.name, student_ids: student_ids }
+    patch section_url(empty_section), params: { 
+      section: { name: empty_section.name, student_ids: student_ids }
     }
     
-    @section.reload
-    assert_equal 2, @section.students.count
+    empty_section.reload
+    assert_equal 2, empty_section.students.count
     
     # Remove one student
     patch section_url(@section), params: { 
@@ -138,10 +139,10 @@ class SectionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should destroy section and remove student enrollments" do
-    @section.students << [@student]
-    assert_equal 1, @section.students.count
+    # @section may already have enrollments from fixtures
+    initial_enrollment_count = @section.section_students.count
     
-    assert_difference("SectionStudent.count", -1) do
+    assert_difference("SectionStudent.count", -initial_enrollment_count) do
       assert_difference("Section.count", -1) do
         delete section_url(@section)
       end
@@ -157,9 +158,8 @@ class SectionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should handle non-existent section" do
-    assert_raises(ActiveRecord::RecordNotFound) do
-      get section_url(999999)
-    end
+    get section_url(999999)
+    assert_response :not_found
   end
 
   test "should show available students on section detail page" do
