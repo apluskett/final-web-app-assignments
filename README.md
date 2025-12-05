@@ -1,9 +1,76 @@
-# F1 Race Predictions Portfolio
+# Course Management System
 
-**Your name**: Alexander Pluskett
-**Assignment**: Final Project
+**Your name**: Alexander Pluskett  
+**Your student ID**: 900835892  
+**Class and section**: CS-3710-001  
+**Assignment number**: 06
 
-## 🏎️ Project Overview
+## 🚀 How to Run
+
+```bash
+# Quick start with Podman (recommended)
+podman build -t final-web-app .
+podman run -d -p 3000:3000 --name final-web-app final-web-app
+
+# OR with Docker
+docker build -t final-web-app .
+docker run -d -p 3000:3000 --name final-web-app final-web-app
+
+# OR local development
+bundle install
+rails db:migrate
+rails db:seed
+rails server -b 0.0.0.0 -p 3000
+```
+
+Then visit: **http://localhost:3000**
+
+Navigate to the **Demos** page to access the Course Management System features:
+- 📚 **Courses**: Full CRUD with rich text syllabus editing
+- 📝 **Sections**: Manage sections with student enrollment via checkboxes
+- 👨‍🎓 **Students**: Student records with section enrollment tracking
+- 🏷️ **Prefixes**: Course prefix management (CS, MATH, etc.)
+
+## 📚 Citations
+
+**AI Assistance**: Used GitHub Copilot throughout development for:
+- Controller and model scaffolding
+- Test suite implementation (153 tests, 100% pass rate)
+- JSON API endpoint creation
+- Rich text integration with ActionText/Trix
+- Form validation and error handling
+
+**Specific AI Prompts**:
+- "How to implement proper HTTP 422 status codes for validation errors in Rails controllers"
+- "How to use ActionText with Trix editor for rich text syllabus field"
+- "Rails controller test expectations for non-existent records (404 vs RecordNotFound)"
+
+## ⭐ Extra Credit
+
+**Features Added Beyond Requirements**:
+
+1. **Machine Learning Integration (F1 Race Predictions)**:
+   - Integrated FastAPI microservice backend with trained ML models
+   - Dual model comparison: Weighted Linear Regression vs. XGBoost
+   - Real-time predictions for Formula 1 race outcomes
+   - Two-part system: This Rails app + separate ML API service
+
+2. **Advanced Theme System**:
+   - **Light Mode**: Classic bright theme
+   - **Dark Mode**: Easy on the eyes
+   - **F1 Mode**: Special Formula 1 official color scheme with red/black styling
+   - Theme preference persists via localStorage
+   - Custom CSS variables for consistent theming across all pages
+
+3. **FOSS Rich Text Editor**:
+   - Implemented Rails ActionText with Trix editor (free and open source)
+   - No external API keys or proprietary services required
+   - Full-featured text formatting: bold, italic, headers, lists, blockquotes
+   - Integrated seamlessly into course syllabus field
+   - Sanitized HTML storage with safe rendering
+
+
+## 🏗️ Project Overview
 
 A full-stack web application showcasing machine learning predictions for Formula 1 races, integrated with a FastAPI microservice backend. This portfolio demonstrates the integration of ML models, containerized services, and modern web development.
 
